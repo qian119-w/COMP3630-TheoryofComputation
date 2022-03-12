@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{silence}
+\WarningsOff[latex]
+\usepackage{float}
+\graphicspath{ {./pics/} }
+\linespread{1.2}
+\newcommand{\code}{\texttt}
+
+\begin{document}
+\subsection*{Exercise 1.}
+\paragraph*{(a)(i)} We prove that \(\delta\) is well defined by a contrapositive proof i.e. 
+\begin{equation*}
+  \text{if } \exists a \in \Sigma \ [xa] \neq [ya], \text{ then } [x] \neq [y]
+\end{equation*}
+Suppose \([xa] \neq [ya]\) for \(a \in \Sigma\), then by the definition of the equivalence classes of \(R_{L}\), \((xa, ya) \notin R_{L}\).
+\begin{align*}
+  (xa, ya) \notin R_{L} \Leftrightarrow \exists w \in \Sigma^{*}\ (xaw \in L \land yaw \notin L \text{ (or vice versa)})
+\end{align*}
+Let \(z = aw\), we now have \(xz \in L \land yz \notin L\) (or vice versa).
+\begin{align*}
+  (xz \in L \land yz \notin L) \Leftrightarrow (x, y) \notin R_{L} \Leftrightarrow [x] \neq [y]
+\end{align*}
+Hence, by the contrapositive proof, if \([x] = [y]\), then \([xa] = [ya]\) for all \(a \in \Sigma\).
+\paragraph*{(ii)} We prove a more general statement i.e. \(\forall x \in \Sigma^{*}\ \hat{\delta}([\epsilon], x) = [x]\).\\
+This implies \(\hat{\delta}([\epsilon], x) \in F\) iff \(x \in L\). Since if \(x \in L\), then by the definition of \(F\), \([x] = \hat{\delta}([\epsilon], x) \in F\). Conversely, if \(\hat{\delta}([\epsilon], x) \in F \Leftrightarrow [x] \in F\), then by the definition of \(F\), \(x \in L\). \\
+Now we prove the lemma by an induction on \(|x|\).
+\begin{itemize}
+  \item \textbf{Basis case} \(x = \epsilon\). \(\delta([\epsilon], \epsilon) = [\epsilon]\) by the definition of the transition function.
+  \item \textbf{Step case} Assume that \(\hat{\delta}([\epsilon], x) = [x]\) for \(|x| < k\). We prove for \(w = xa\) where \(x \in \Sigma^{k-1}, a \in \Sigma\).
+  \begin{align*}
+    \hat{\delta}([\epsilon], xa) &= \delta(\hat{\delta}([\epsilon], x), a) \tag*{(definition of \(\hat{\delta}\))} \\
+    &= \delta([x], a) \tag*{(IH)} \\
+    &= [xa] \tag*{(definition of \(\delta\))}
+  \end{align*}
+\end{itemize}
+Hence, we have proven the lemma.
+
+\noindent (b). Denote the DFA in part (a) as \(D = (Q, \Sigma, \delta, q_{0}, F)\). We prove that any DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) has at least as many states as \(D\), by constructing a surjective function \(f\) from \(Q_{A}\) to \(Q\). We adapted the proof from solutions of Tutorial 2. Define \(S(q) = \{w \in \Sigma^{*} \mid \hat{\delta}(q_{0_{A}}, w) = q\}\), and \(f\) 
+\begin{align*}
+  &f : \{q \in Q_{A} \mid S(q) \neq \emptyset\} \to \{[x] \mid x \in \Sigma^{*}\} \\
+  &f(q) = [x] \text{ with } S(q) \subseteq [x]
+\end{align*}
+We show that \(f\) is well defined, i.e.
+\begin{itemize}
+  \item \(\forall q \in Q_{A}\) such that \(S(q) \neq \emptyset\), \(\exists [x] \in Q\) with \(S(q) \subseteq [x]\)\\
+  Proof. For \(q \in Q_{A}\), pick \([x] \in Q\) such that \(x \in S(q)\). Now for \(\forall u, v \in S(q)\), we proved in the tutorial that \((u, v) \in R_{L}\). Hence for \(\forall u \in S(q)\), \((x, u) \in R_{L}\). Hence, \(u \in [x]\), and \(S(q) \subseteq [x]\)
+  \item if \(f(q) = [x]\) and \(f(q) = [y]\) for \(x \neq y\), then \([x] = [y]\)\\
+  Proof. Suppose \(f(q) = [x]\) and \(f(q) = [y]\), then \(S(q) \subseteq [x]\) and \(S(q) \subseteq [y]\). Then \(u \in S(q) \Rightarrow u \in [x] \Leftrightarrow (x, u) \in R_{L}\); and \(u \in S(q) \Rightarrow u \in [y] \Leftrightarrow (y, u) \in R_{L} \Leftrightarrow (u, y) \in R_{L}\). By transitivity, \((x, u) \in R_{L} \land (u, y) \in R_{L} \Rightarrow (x, y) \in R_{L} \Leftrightarrow [x] = [y]\)
+\end{itemize}
+Now, we show that \(f\) is surjective. For \([x] \in Q\), we pick \(q = \hat{\delta}(q_{0_{A}}, x) \in Q_{A}\). \(S(q) \neq \emptyset\) since \(x \in S(q)\) by definition. We only need to show \(S(q) \subseteq [x]\). By the same argument that \(\forall u, v \in S(q), (u, v) \in R_{L}\). \(u \in S(q) \Rightarrow (x, u) \in R_{L} \Leftrightarrow u \in [x]\).\\ 
+Since \(f\) is surjective, then for every state \([x]\) in DFA \(D\), there are corresponding reachable states in DFA \(A\) that are mapped to \([x]\), and the cardinality of \(Q_{A}\) exclusive of unreachable states is at least the cardinality of \(Q\). Hence, any DFA that accepts \(L\) would have at least as many states as DFA \(D\). Then \(D\) is the minimal DFA.
+
+\subsection*{Exercise 2.} 
+\paragraph*{(a)} Pick n=7. We consider \(w=a^jc^ka^lb^m \in L\) with \(|w| \geq 7\) in two separate cases.
+\begin{itemize}
+  \item \(0 \leq j \leq 5\), \(k \geq 2\) and \(l \neq m\)\\
+  Divide \(w = xyz\) as \(x = a^jc\), \(y=c\), and \(z=c^{k-2}a^lb^m\). \(|xy| = j+2 \leq 7\) since \(0 \leq j \leq 5\), \(|y| = 1 > 0\), and by pumping \(y\), we get
+  \begin{itemize}
+    \item \(xy^0z = a^jcc^{k-2}a^lb^m = a^jc^{k-1}a^lb^m\)\\
+    if \(k = 2\), then \(k-1 = 1\), \(l \neq m\) still means \(xy^0z \in L\)\\
+    if \(k > 2\), then \(k-1 \geq 2\), \(l \neq m\) still holds, and \(xy^0z \in L\)
+    \item \(xy^iz = a^jcc^ic^{k-2}a^lb^m = a^jc^{i+k-1}a^lb^m\) for \(i > 1\)\\
+    \(i+k-1 > 2\) for \(k \geq 2\), \(l \neq m\) still holds, so \(xy^iz \in L\) for \(i > 1\)
+  \end{itemize}
+  Hence, all \(w\) when \(k \geq 2\) satisfies the pumping lemma.
+  \item \(0 \leq j \leq 5\), \(k < 2\) and \(k, l, m \in \mathbb{N}\)\\
+  Note that for \(w \in L\) such that \(|w| \geq 7\), \(w\) should have at least one of \(l\) and \(m\) not being zero.
+  \begin{itemize}
+    \item if \(l \neq 0\), then we divide \(w = xyz\) such that \(x=a^jc^k\), \(y=a\), \(z=a^{l-1}b^m\). \(|xy|= j+k+1 \leq 7\), \(|y| = 1>0\), 
+  
+  \end{itemize}
+\end{itemize}
+
+\end{document}
