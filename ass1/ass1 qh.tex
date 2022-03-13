@@ -105,13 +105,25 @@ Hence the claim.
 \begin{itemize}
   \item \(L^* \subseteq (L^*)^*\) since \(L^* = (L^*)^1 \subseteq (L^*)^*\)
   \item \((L^*)^* \subseteq L^*\)\\
-  Let \(w \in (L^*)^*\), we can write \(w = w_1w_2...w_n\) for \(n \geq 0\) where each \(w_i \in L^*\). We can also write each \(w_i = x_{i1}x_{i2}...x_{il_i}\) for \(l_i \geq 0\) where each \(x_{il_i} \in L\). Then \(w = x_{11}x_{12}...x_{1l_1}..x_{n1}x_{n2}...x_{nl_n} \in L^{\sum_1^n{l_n}} \subseteq L^*\). Hence, \(w \in L^*\). 
+  Let \(w \in (L^*)^*\), we can write \(w = w_1w_2...w_n\) for \(n \geq 0\) where each \(w_i \in L^*\). We can also write each \(w_i = w_{i1}w_{i2}...w_{il_i}\) for \(l_i \geq 0\) where each \(w_{il_i} \in L\). Then \(w = w_{11}w_{12}..w_{1l_1}...w_{n1}w_{n2}..w_{nl_n} \in L^{\sum_1^n{l_n}} \subseteq L^*\). Hence, \((L^*)^* \subseteq L^*\). 
 \end{itemize}
 
-\paragraph*{2.} We prove \(L((r+s)^*) = L((r^*s)^*r^*)\). Denote \(R = L(r)\) and \(S = L(s)\) for clarity. By def of reg lang,\\
-\(L((r+s)^*) = L(r+s)^* = (L(r) \cup L(s))^* = (R \cup S)^*\)\\
-\(L((r^*s)^*r^*) =  L((r^*s)^*)L(r^*) = L(r^*s)^*L(r)^* = (L(r^*)L(s))^*R^* = (L(r)^*S)^*R^* = (R^*S)^*R^*\)\\
-In other words, we prove \((R \cup S)^* = (R^*S)^*R^*\).
+\paragraph*{2.} We prove \(L((r+s)^*) = L((r^*s)^*r^*)\). Denote \(R = L(r)\) and \(S = L(s)\) for clarity.
+\begin{itemize}
+  \item \(L((r+s)^*) = L(r+s)^* = (L(r) \cup L(s))^* = (R \cup S)^*\)
+  \item \(L((r^*s)^*r^*) =  L((r^*s)^*)L(r^*) = L(r^*s)^*L(r)^* = (L(r^*)L(s))^*R^* = (L(r)^*S)^*R^* = (R^*S)^*R^*\)
+\end{itemize}
+In other words, we prove \((R \cup S)^* = (R^*S)^*R^*\). Laws that are needed:\\
+\textbf{L1.} \(\forall L \subseteq \Sigma^*\), \(L^*L \subseteq L^*\)\\
+Proof. Suppose \(L \subseteq \Sigma^*\). Let \(w \in L^*L\). Then we can write \(w = xa\) where \(x \in L^*\), \(a \in L\). \(x\) can be further written as \(x_1x_2...x_n\) for \(n \geq 0\) where each \(x_i \in L\). Then \(w = x_1x_2...x_na \in L^{n+1} \subseteq L^*\). Hence, \(L^*L \subseteq L^*\)
+\(L^*L = (\cup_{n \geq 0}L^n)L = \{xa \in \Sigma^* \mid x \in \cup_{n \geq 0}L^n, a \in L\} = \cup_{n \geq 0}\{xa \in \Sigma^* \mid x \in L^n, a \in L\} = \cup_{n \geq 0}(L^nL) = \cup_{n \geq 0}L^{n+1} = \cup_{n \geq 1}L^{n} \subseteq L^*\)\\
+\textbf{L2.} \(\forall L, M, N \subseteq \Sigma^*\), \(M \subseteq N \Rightarrow LM \subseteq LN\)\\
+Proof. Suppose \(M, N \subseteq \Sigma^*\) with \(M \subseteq N\). Let \(w \in LM\). We can write \(w = xa\), where \(x \in L, a \in M\). Since \(M \subseteq N\), then \(a \in N\), and \(w = xa \in LN\). Hence, \(LM 
+\subseteq LN\).\\
+\textbf{L3.} for \(\forall M,N \in \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
+Proof. Suppose \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
+\textbf{L4.} for \(\forall M,N,X,Y \in \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
+Proof. Suppose \(M \subseteq N \land X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Hence, \(w \in NY\). \(MX \subseteq NY\).
 \begin{itemize}
   \item \((R \cup S)^* \subseteq (R^*S)^*R^*\)\\
   We prove the lemma that for \(\forall n \geq 0\), \((R \cup S)^n \subseteq (R^*S)^*R^*\), then by def of set union, \((R \cup S)^* = \cup_{n \geq 0}(R \cup S)^n \subseteq (R^*S)^*R^*\). By an induction on n,
@@ -126,10 +138,6 @@ In other words, we prove \((R \cup S)^* = (R^*S)^*R^*\).
       &= ((R^*S)^*R^*)R \cup ((R^*S)^*R^*)S \tag*{(set def of concat)}
     \end{align*}
     We show both subsets are in \((R^*S)^*R^*\). But first we prove some laws.\\
-    \textbf{L1.} \(\forall L \subseteq \Sigma^*\), \(L^*L \subseteq L^*\)\\
-    Proof. \(L^*L = (\cup_{n \geq 0}L^n)L = \{xa \in \Sigma^* \mid x \in \cup_{n \geq 0}L^n, a \in L\} = \cup_{n \geq 0}\{xa \in \Sigma^* \mid x \in L^n, a \in L\} = \cup_{n \geq 0}(L^nL) = \cup_{n \geq 0}L^{n+1} = \cup_{n \geq 1}L^{n} \subseteq L^*\)\\
-    \textbf{L2.} \(\forall L, M, N \subseteq \Sigma^*\), \(M \subseteq N \Rightarrow LM \subseteq LN\)\\
-    Proof. Suppose \(M, N \subseteq \Sigma^*\) with \(M \subseteq N\). Let \(w \in LM\). Write \(w = xa\), where \(x \in L, a \in M\). Since \(M \subseteq N\), \(a \in N\). Then \(w = xa \in LN\). In short, \(LM = \{xa \in \Sigma^* \mid x \in L, a \in M\} \subseteq \{xa \in \Sigma^* \mid x \in L, a \in N\} = LN\)\\
     Back to the proof
     \begin{itemize}
       \item \(((R^*S)^*R^*)R \subseteq (R^*S)^*R^*\)
@@ -150,11 +158,6 @@ In other words, we prove \((R \cup S)^* = (R^*S)^*R^*\).
   \end{itemize}
   Hence the lemma.
   \item \((R^*S)^*R^* \subseteq (R \cup S)^*\)\\
-  \textbf{L3.} for \(\forall M,N \in \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
-  Proof. Suppose \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i 
-  \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
-  \textbf{L4.} for \(\forall M,N,X,Y \in \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
-  Proof. Suppose \(M \subseteq N \land X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Hence, \(w \in NY\). \(MX \subseteq NY\).\\
   Now we can prove \((R^*S)^*R^* \subseteq (R \cup S)^*\).\\
   Since \(R \subseteq (R \cup S)\), by L3 we have \(R^* \subseteq (R \cup S)^*\). Also, \(S \subseteq (R \cup S)\), by L4 \(R^*S \subseteq (R \cup S)^*(R \cup S) \overset{L1}{\subseteq} (R \cup S)^*\). By L3 again, \((R^*S)^* \subseteq ((R \cup S)^*)^* \overset{part 1}{=} (R \cup S)^*\). By L4, \((R^*S)^*R^* \subseteq (R \cup S)^*(R \cup S)^* = ((R \cup S)^*)^2 \subseteq ((R \cup S)^*)^* \overset{part 1}{=} (R \cup S)^*\).
 \end{itemize}
