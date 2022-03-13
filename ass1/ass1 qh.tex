@@ -38,22 +38,7 @@ Hence, we have proven the lemma.
   \item for each \(q \in Q_{A}\), there exists a \(f(q) \in Q\). Let \(q \in Q_A\), then \(\exists w \in \Sigma^*\) such that \(q = \hat{\delta}_A(q_{0_{A}}, w)\) since \(q\) is a reachable state by construction. By def of the constructed \(f\), we have \(f(q) = \hat{\delta}(q_0, w) = \hat{\delta}([\epsilon], w) \overset{part (b)}{=} [w] \in Q\)
   \item and each \(q \in Q_{A}\) has a unique mapping \(f(q) \in Q\). Suppose \(\hat{\delta}_A(q_{0_{A}}, x) = \hat{\delta}_A(q_{0_{A}}, y)\) for \(x \neq y\), we show \(\hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\). Let \(w \in \Sigma^*\). \(xw \in L \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, xw) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, x), w) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, y), w) \in F_A \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, yw) \in F_A \Leftrightarrow yw \in L\). Hence, \(\forall w \in \Sigma^*, xw \in L \Leftrightarrow yw \in L\), i.e. \((x,y) \in R_L \Leftrightarrow [x] = [y] \Leftrightarrow \hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\)
 \end{itemize}
-If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one state \([x] \in D\) such that for \(\forall w \in \Sigma^*\), \(f(\hat{\delta}_A(q_{0_{A}}, w)) \neq [x]\). However, \(f(\hat{\delta}_A(q_{0_{A}}, x)) = \hat{\delta}(q_0, x) = [x]\), this is a contradiction. Therefore, \(A\) must have at least as many states as \(D\). For \(A\) with unreachable states, it must be more. Hence \(D\) is the minimal DFA for \(L\). 
-
-We prove that any DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) has at least as many states as \(D\), by constructing a surjective function \(f\) from \(Q_{A}\) to \(Q\). We adapted the proof from solutions of Tutorial 2. Define \(S(q) = \{w \in \Sigma^{*} \mid \hat{\delta}(q_{0_{A}}, w) = q\}\), and \(f\) 
-\begin{align*}
-  &f : \{q \in Q_{A} \mid S(q) \neq \emptyset\} \to \{[x] \mid x \in \Sigma^{*}\} \\
-  &f(q) = [x] \text{ with } S(q) \subseteq [x]
-\end{align*}
-We show that \(f\) is well defined, i.e.
-\begin{itemize}
-  \item \(\forall q \in Q_{A}\) such that \(S(q) \neq \emptyset\), \(\exists [x] \in Q\) with \(S(q) \subseteq [x]\)\\
-  Proof. For \(q \in Q_{A}\), pick \([x] \in Q\) such that \(x \in S(q)\). Now for \(\forall u, v \in S(q)\), we proved in the tutorial that \((u, v) \in R_{L}\). Hence for \(\forall u \in S(q)\), \((x, u) \in R_{L}\). Hence, \(u \in [x]\), and \(S(q) \subseteq [x]\)
-  \item if \(f(q) = [x]\) and \(f(q) = [y]\) for \(x \neq y\), then \([x] = [y]\)\\
-  Proof. Suppose \(f(q) = [x]\) and \(f(q) = [y]\), then \(S(q) \subseteq [x]\) and \(S(q) \subseteq [y]\). Then \(u \in S(q) \Rightarrow u \in [x] \Leftrightarrow (x, u) \in R_{L}\); and \(u \in S(q) \Rightarrow u \in [y] \Leftrightarrow (y, u) \in R_{L} \Leftrightarrow (u, y) \in R_{L}\). By transitivity, \((x, u) \in R_{L} \land (u, y) \in R_{L} \Rightarrow (x, y) \in R_{L} \Leftrightarrow [x] = [y]\)
-\end{itemize}
-Now, we show that \(f\) is surjective. For \([x] \in Q\), we pick \(q = \hat{\delta}(q_{0_{A}}, x) \in Q_{A}\). \(S(q) \neq \emptyset\) since \(x \in S(q)\) by definition. We only need to show \(S(q) \subseteq [x]\). By the same argument that \(\forall u, v \in S(q), (u, v) \in R_{L}\). \(u \in S(q) \Rightarrow (x, u) \in R_{L} \Leftrightarrow u \in [x]\).\\ 
-Since \(f\) is surjective, then for every state \([x]\) in DFA \(D\), there are corresponding reachable states in DFA \(A\) that are mapped to \([x]\), and the cardinality of \(Q_{A}\) exclusive of unreachable states is at least the cardinality of \(Q\). Hence, any DFA that accepts \(L\) would have at least as many states as DFA \(D\). Then \(D\) is the minimal DFA.
+If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one state \([x] \in D\) such that for \(\forall w \in \Sigma^*\), \(f(\hat{\delta}_A(q_{0_{A}}, w)) \neq [x]\). However, \(f(\hat{\delta}_A(q_{0_{A}}, x)) = \hat{\delta}(q_0, x) = [x]\), this is a contradiction. Therefore, \(A\) must have at least as many states as \(D\). For \(A\) with unreachable states, it must be more. Hence \(D\) is the minimal DFA for \(L\).
 
 \subsection*{Exercise 2.} 
 \paragraph*{(a)} Pick n=7. We consider \(w=a^jc^ka^lb^m \in L\) with \(|w| \geq 7\) in two separate cases.
