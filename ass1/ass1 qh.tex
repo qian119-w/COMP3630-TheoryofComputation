@@ -7,7 +7,7 @@
 \usepackage{mathrsfs}
 \WarningsOff[latex]
 \usepackage{float}
-\graphicspath{ {./pics/} }
+\graphicspath{ {./} }
 \linespread{1.2}
 \newcommand{\code}{\texttt}
 
@@ -29,10 +29,10 @@ Now we prove the lemma by an induction on \(|x|\).
 \end{itemize}
 Hence, we have proven the lemma.
 
-\noindent (b). Denote the DFA in part (a) as \(D = (Q, \Sigma, \delta, q_{0}, F)\). Let DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) and no unreachable state. Construct \(f : Q_A \to Q\)
-\begin{equation}
+\paragraph*{(b)} Denote the DFA in part (a) as \(D = (Q, \Sigma, \delta, q_{0}, F)\). Let DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) and no unreachable states. Construct \(f : Q_A \to Q\)
+\begin{equation*}
   f(\hat{\delta}_A(q_{0_{A}}, w)) = \hat{\delta}(q_0, w) \text{ for } \forall w \in \Sigma^*
-\end{equation}
+\end{equation*}
 \(f\) is well defined since
 \begin{itemize}
   \item for each \(q \in Q_{A}\), there exists a \(f(q) \in Q\). Let \(q \in Q_A\), then \(\exists w \in \Sigma^*\) such that \(q = \hat{\delta}_A(q_{0_{A}}, w)\) since \(q\) is a reachable state by construction. By def of the constructed \(f\), we have \(f(q) = \hat{\delta}(q_0, w) = \hat{\delta}([\epsilon], w) \overset{part (b)}{=} [w] \in Q\)
@@ -174,4 +174,24 @@ We prove \((RS)^* = \{\epsilon\} \cup R(SR)^*S\) by equaltiy of the subsets, i.e
   Hence \(\cup_{n \geq 1}(RS)^n = \cup_{n \geq 1} R(SR)^{n-1}S = \cup_{n \geq 0} R(SR)^{n}S\)
 \end{itemize}
 From above, \((RS)^* = \cup_{n \geq 0}(RS)^n = (RS)^0 \cup (\cup_{n \geq 1}(RS)^n)\) = \(\{\epsilon\} \cup (\cup_{n \geq 0} R(SR)^{n}S) = \{\epsilon\} \cup R(SR)^*S\). Hence, \((rs)^* = \epsilon + r(sr)^*s\) is valid.
+
+\subsection*{Exercise 5.}
+\paragraph*{(a)} As below
+\begin{figure}[htp!]
+  \includegraphics[width = \textwidth]{ex5a.pdf}
+\end{figure}
+
+\paragraph*{(b)} \(G\) is ambiguous because there exists \(w \in L(G)\) that has two parse trees. Consider \(w = abbbbb \in L(G)\). The following two parse trees generate the same string \(abbbbb\).
+\begin{figure}[htp!]
+  \centering
+  \includegraphics[scale = 0.9]{ex5b.pdf}
+\end{figure}
+
+\paragraph*{(c)} \(G'\) is defined by the following productions:
+\begin{align*}
+  S &\to AVN\\
+  A &\to ANV \mid ab \mid a\\
+  N &\to NNV \mid ab \mid b\\
+  V &\to b
+\end{align*}
 \end{document}
