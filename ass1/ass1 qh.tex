@@ -38,7 +38,7 @@ Hence, we have proven the lemma.
   \item for each \(q \in Q_{A}\), there exists a \(f(q) \in Q\). Let \(q \in Q_A\), then \(\exists w \in \Sigma^*\) such that \(q = \hat{\delta}_A(q_{0_{A}}, w)\) since \(q\) is a reachable state by construction. By def of the constructed \(f\), we have \(f(q) = \hat{\delta}(q_0, w) = \hat{\delta}([\epsilon], w) \overset{part (b)}{=} [w] \in Q\)
   \item and each \(q \in Q_{A}\) has a unique mapping \(f(q) \in Q\). Suppose \(\hat{\delta}_A(q_{0_{A}}, x) = \hat{\delta}_A(q_{0_{A}}, y)\) for \(x \neq y\), we show \(\hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\). Let \(w \in \Sigma^*\). \(xw \in L \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, xw) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, x), w) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, y), w) \in F_A \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, yw) \in F_A \Leftrightarrow yw \in L\). Hence, \(\forall w \in \Sigma^*, xw \in L \Leftrightarrow yw \in L\), i.e. \((x,y) \in R_L \Leftrightarrow [x] = [y] \Leftrightarrow \hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\)
 \end{itemize}
-If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one state \([x] \in D\) such that for \(\forall w \in \Sigma^*\), \(f(\hat{\delta}_A(q_{0_{A}}, w)) \neq [x]\). However, \(f(\hat{\delta}_A(q_{0_{A}}, x)) = \hat{\delta}(q_0, x) = [x]\), this is a contradiction. Therefore, \(A\) must have at least as many states as \(D\). For \(A\) with unreachable states, it must be more. Hence \(D\) is the minimal DFA for \(L\).
+If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one state \([x] \in D\) such that for \(\forall w \in \Sigma^*\), \(f(\hat{\delta}_A(q_{0_{A}}, w)) \neq [x]\). However, for \(x\), \(f(\hat{\delta}_A(q_{0_{A}}, x)) = \hat{\delta}(q_0, x) = [x]\), a contradiction. Therefore, \(A\) must have at least as many states as \(D\). For \(A\) with unreachable states, it must be more. Hence \(D\) is the minimal DFA for \(L\).
 
 \subsection*{Exercise 2.} 
 \paragraph*{(a)} Pick n=7. We consider \(w=a^jc^ka^lb^m \in L\) with \(|w| \geq 7\) in two separate cases.
@@ -115,61 +115,43 @@ Hence the claim.
 \end{itemize}
 In other words, we prove \((R \cup S)^* = (R^*S)^*R^*\). Laws that are needed:\\
 \textbf{L1.} \(\forall L \subseteq \Sigma^*\), \(L^*L \subseteq L^*\)\\
-Proof. Suppose \(L \subseteq \Sigma^*\). Let \(w \in L^*L\). Then we can write \(w = xa\) where \(x \in L^*\), \(a \in L\). \(x\) can be further written as \(x_1x_2...x_n\) for \(n \geq 0\) where each \(x_i \in L\). Then \(w = x_1x_2...x_na \in L^{n+1} \subseteq L^*\). Hence, \(L^*L \subseteq L^*\)
-\(L^*L = (\cup_{n \geq 0}L^n)L = \{xa \in \Sigma^* \mid x \in \cup_{n \geq 0}L^n, a \in L\} = \cup_{n \geq 0}\{xa \in \Sigma^* \mid x \in L^n, a \in L\} = \cup_{n \geq 0}(L^nL) = \cup_{n \geq 0}L^{n+1} = \cup_{n \geq 1}L^{n} \subseteq L^*\)\\
+Proof. Suppose \(L \subseteq \Sigma^*\). Let \(w \in L^*L\). Then we can write \(w = xa\) where \(x \in L^*\), \(a \in L\). \(x\) can be further written as \(x_1x_2...x_n\) for \(n \geq 0\) where each \(x_i \in L\). Then \(w = x_1x_2...x_na \in L^{n+1} \subseteq L^*\). Hence, \(L^*L \subseteq L^*\).\\
 \textbf{L2.} \(\forall L, M, N \subseteq \Sigma^*\), \(M \subseteq N \Rightarrow LM \subseteq LN\)\\
 Proof. Suppose \(M, N \subseteq \Sigma^*\) with \(M \subseteq N\). Let \(w \in LM\). We can write \(w = xa\), where \(x \in L, a \in M\). Since \(M \subseteq N\), then \(a \in N\), and \(w = xa \in LN\). Hence, \(LM 
 \subseteq LN\).\\
-\textbf{L3.} for \(\forall M,N \in \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
-Proof. Suppose \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
-\textbf{L4.} for \(\forall M,N,X,Y \in \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
-Proof. Suppose \(M \subseteq N \land X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Hence, \(w \in NY\). \(MX \subseteq NY\).
+\textbf{L3.} \(\forall M,N \in \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
+Proof. Suppose \(M,N \in \Sigma^*\) with \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
+\textbf{L4.} \(\forall M,N,X,Y \in \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
+Proof. Suppose \(M,N,X,Y \in \Sigma^*\) with \(M \subseteq N\) and \(X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Then \(w = ax \in NY\). Hence, \(MX \subseteq NY\).
 \begin{itemize}
   \item \((R \cup S)^* \subseteq (R^*S)^*R^*\)\\
-  We prove the lemma that for \(\forall n \geq 0\), \((R \cup S)^n \subseteq (R^*S)^*R^*\), then by def of set union, \((R \cup S)^* = \cup_{n \geq 0}(R \cup S)^n \subseteq (R^*S)^*R^*\). By an induction on n,
+  We prove a lemma that \(\forall n \geq 0\), \((R \cup S)^n \subseteq (R^*S)^*R^*\). By an induction on n,
   \begin{itemize}
-    \item n = 0 \((R \cup S)^0 = \{\epsilon\} = \{\epsilon\}\{\epsilon\} = (R^*S)^0R^0 \subseteq (R^*S)^*R^*\)
-    \item prove \((R \cup S)^{n+1} \subseteq (R^*S)^*R^*\)
-    \begin{align*}
-      (R \cup S)^{n+1} &= (R \cup S)^{n} (R \cup S) \tag*{(concat of lang)}\\
-      &= \{xa \in \Sigma^* \mid x \in (R \cup S)^{n}, a \in (R \cup S)\} \tag*{(set notation of concat)}\\
-      &\subseteq \{xa \in \Sigma^* \mid x \in (R^*S)^*R^*, a \in (R \cup S)\} \tag*{(IH)}\\
-      &= \{xa \in \Sigma^* \mid x \in (R^*S)^*R^*, a \in R\} \cup \{xa \in \Sigma^* \mid x \in (R^*S)^*R^*, a \in S\} \\
-      &= ((R^*S)^*R^*)R \cup ((R^*S)^*R^*)S \tag*{(set def of concat)}
-    \end{align*}
-    We show both subsets are in \((R^*S)^*R^*\). But first we prove some laws.\\
-    Back to the proof
+    \item \textbf{Base case} n = 0. \((R \cup S)^0 = \{\epsilon\} = \{\epsilon\}\{\epsilon\} = (R^*S)^0R^0\). Since \((R^*S)^0 \subseteq (R^*S)^*\) and \(R^0 \subseteq R^*\), by L4 \((R^*S)^0R^0 \subseteq (R^*S)^*R^*\). Hence \((R \cup S)^0 \subseteq (R^*S)^*R^*\).
+    \item \textbf{Step case} Assume \((R \cup S)^n \subseteq (R^*S)^*R^*\) and prove \((R \cup S)^{n+1} \subseteq (R^*S)^*R^*\)\\
+    Let \(w \in (R \cup S)^{n+1} = (R \cup S)^{n}(R \cup S)\). Then we can write \(w = xa\) where \(x \in (R \cup S)^{n}\), \(a \in (R \cup S)\). By IH, \(x \in (R^*S)^*R^*\). \(a\) could be either in \(R\) or in \(S\).
     \begin{itemize}
-      \item \(((R^*S)^*R^*)R \subseteq (R^*S)^*R^*\)
-      \begin{align*}
-        &R^*R \subseteq R^* \tag*{(L1)}\\
-        &\Rightarrow (R^*S)^*(R^*R) \subseteq (R^*S)^*R^* \tag*{(L2)}\\
-        &\Leftrightarrow ((R^*S)^*R^*)R \subseteq (R^*S)^*R^* \tag*{(associativity)}
-      \end{align*}
-      \item \(((R^*S)^*R^*)S \subseteq (R^*S)^*R^*\)
-      \begin{align*}
-        & (R^*S)^*(R^*S) \subseteq (R^*S)^* \tag*{(L1)}\\
-        &\Leftrightarrow ((R^*S)^*R^*)S \subseteq (R^*S)^* = (R^*S)^*\{\epsilon\}
-        = (R^*S)^*R^0 \subseteq (R^*S)^*R^*
-        \tag*{(assoc \& concat with \(\{\epsilon\}\))}
-      \end{align*}
+      \item \(a \in R\). Then \(w = xa \in ((R^*S)^*R^*)R \overset{assoc}{=} (R^*S)^*(R^*R)\). Prove \((R^*S)^*(R^*R) \subseteq (R^*S)^*R^*\)\\
+      Proof. By L1, we have \(R^*R \subseteq R^*\). Since \((R^*S)^*\) is a regular language in \(\Sigma^*\) as reg langs are closed under concatenation and Kleene-*, then by L2 we have \((R^*S)^*(R^*R) \subseteq (R^*S)^*R^*\). 
+      \item  \(a \in S\). Then \(w = xa \in ((R^*S)^*R^*)S \overset{assoc}{=} (R^*S)^*(R^*S) \overset{L1}{=} (R^*S)^* = (R^*S)^*\{\epsilon\} = (R^*S)^*R^0\). Since \(R^0 \subseteq R^*\), and \((R^*S)^*\) is a reg lang, we have by L2 \((R^*S)^*R^0 \subseteq (R^*S)^*R^*\).
     \end{itemize}
-    Hence the step case. 
+    Thus, \(w = xa \in (R^*S)^*R^*\) and we have proven the step case.
   \end{itemize}
-  Hence the lemma.
+  Hence the lemma. Then the set union \(\cup_{n \geq 0}(R \cup S)^n = (R \cup S)^* \subseteq (R^*S)^*R^*\).
   \item \((R^*S)^*R^* \subseteq (R \cup S)^*\)\\
-  Now we can prove \((R^*S)^*R^* \subseteq (R \cup S)^*\).\\
   Since \(R \subseteq (R \cup S)\), by L3 we have \(R^* \subseteq (R \cup S)^*\). Also, \(S \subseteq (R \cup S)\), by L4 \(R^*S \subseteq (R \cup S)^*(R \cup S) \overset{L1}{\subseteq} (R \cup S)^*\). By L3 again, \((R^*S)^* \subseteq ((R \cup S)^*)^* \overset{part 1}{=} (R \cup S)^*\). By L4, \((R^*S)^*R^* \subseteq (R \cup S)^*(R \cup S)^* = ((R \cup S)^*)^2 \subseteq ((R \cup S)^*)^* \overset{part 1}{=} (R \cup S)^*\).
 \end{itemize}
 Hence, we have formally proven \(L((r+s)^*) = L((r^*s)^*r^*)\), thus the validity of \((r+s)^* = (r^*s)^*r^*\).
 
-\paragraph*{3.} Let \(R = L(r)\), \(S = L(s)\).\\
-\(L((rs)^*) = L(rs)^* = (L(r)L(s))^* = (RS)^*\)\\
-\(L(\epsilon + r(sr)^*s) = L(\epsilon) \cup L(r(sr)^*s) = \{\epsilon\} \cup L(r(sr)^*)L(s) = \{\epsilon\} \cup L(r)L((sr)^*)S = \{\epsilon\} \cup RL(sr)^*S = \{\epsilon\} \cup R(L(s)L(r))^*S = \{\epsilon\} \cup R(SR)^*S\)\\
+\paragraph*{3.} Let \(R = L(r)\), \(S = L(s)\).
+\begin{itemize}
+  \item \(L((rs)^*) = L(rs)^* = (L(r)L(s))^* = (RS)^*\)
+  \item \(L(\epsilon + r(sr)^*s) = L(\epsilon) \cup L(r(sr)^*s) = \{\epsilon\} \cup L(r(sr)^*)L(s) = \{\epsilon\} \cup L(r)L((sr)^*)S = \{\epsilon\} \cup RL(sr)^*S = \{\epsilon\} \cup R(L(s)L(r))^*S = \{\epsilon\} \cup R(SR)^*S\)
+\end{itemize}
 We prove \((RS)^* = \{\epsilon\} \cup R(SR)^*S\) by equaltiy of the subsets, i.e, \((RS)^0 = \{\epsilon\}\) and \((RS)^n = R(SR)^{n-1}S\) for \(\forall n \geq 1\).
 \begin{itemize}
   \item \((RS)^0 = \{\epsilon\}\) by definition
-  \item we prove by induction on \(n\) that \((RS)^n = R(SR)^{n-1}S\) for \(\forall n \geq 1\).
+  \item we prove by an induction on \(n\) that \((RS)^n = R(SR)^{n-1}S\) for \(\forall n \geq 1\).
   \begin{itemize}
     \item \textbf{Base case} n = 1. \((RS)^1 = RS = (R\{\epsilon\})S = (R(SR)^0)S = R(SR)^0S \)
     \item \textbf{Step case} \((RS)^{n+1} = (RS)^n(RS) \overset{IH}{=} (R(SR)^{n-1}S)(RS) \overset{assoc}{=} ((R(SR)^{n-1}S)R)S\\ \overset{assoc}{=} (R(SR)^{n-1}(SR))S = (R(SR)^{n})S = R(SR)^{n}S\)
