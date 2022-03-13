@@ -29,7 +29,18 @@ Now we prove the lemma by an induction on \(|x|\).
 \end{itemize}
 Hence, we have proven the lemma.
 
-\noindent (b). Denote the DFA in part (a) as \(D = (Q, \Sigma, \delta, q_{0}, F)\). We prove that any DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) has at least as many states as \(D\), by constructing a surjective function \(f\) from \(Q_{A}\) to \(Q\). We adapted the proof from solutions of Tutorial 2. Define \(S(q) = \{w \in \Sigma^{*} \mid \hat{\delta}(q_{0_{A}}, w) = q\}\), and \(f\) 
+\noindent (b). Denote the DFA in part (a) as \(D = (Q, \Sigma, \delta, q_{0}, F)\). Let DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) and no unreachable state. Construct \(f : Q_A \to Q\)
+\begin{equation}
+  f(\hat{\delta}_A(q_{0_{A}}, w)) = \hat{\delta}(q_0, w) \text{ for } \forall w \in \Sigma^*
+\end{equation}
+\(f\) is well defined since
+\begin{itemize}
+  \item for each \(q \in Q_{A}\), there exists a \(f(q) \in Q\). Let \(q \in Q_A\), then \(\exists w \in \Sigma^*\) such that \(q = \hat{\delta}_A(q_{0_{A}}, w)\) since \(q\) is a reachable state by construction. By def of the constructed \(f\), we have \(f(q) = \hat{\delta}(q_0, w) = \hat{\delta}([\epsilon], w) \overset{part (b)}{=} [w] \in Q\)
+  \item and each \(q \in Q_{A}\) has a unique mapping \(f(q) \in Q\). Suppose \(\hat{\delta}_A(q_{0_{A}}, x) = \hat{\delta}_A(q_{0_{A}}, y)\) for \(x \neq y\), we show \(\hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\). Let \(w \in \Sigma^*\). \(xw \in L \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, xw) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, x), w) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, y), w) \in F_A \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, yw) \in F_A \Leftrightarrow yw \in L\). Hence, \(\forall w \in \Sigma^*, xw \in L \Leftrightarrow yw \in L\), i.e. \((x,y) \in R_L \Leftrightarrow [x] = [y] \Leftrightarrow \hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\)
+\end{itemize}
+If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one state \([x] \in D\) such that for \(\forall w \in \Sigma^*\), \(f(\hat{\delta}_A(q_{0_{A}}, w)) \neq [x]\). However, \(f(\hat{\delta}_A(q_{0_{A}}, x)) = \hat{\delta}(q_0, x) = [x]\), this is a contradiction. Therefore, \(A\) must have at least as many states as \(D\). For \(A\) with unreachable states, it must be more. Hence \(D\) is the minimal DFA for \(L\). 
+
+We prove that any DFA \(A = (Q_{A}, \Sigma, \delta_{A}, q_{0_{A}}, F_{A})\) with \(L(A) = L\) has at least as many states as \(D\), by constructing a surjective function \(f\) from \(Q_{A}\) to \(Q\). We adapted the proof from solutions of Tutorial 2. Define \(S(q) = \{w \in \Sigma^{*} \mid \hat{\delta}(q_{0_{A}}, w) = q\}\), and \(f\) 
 \begin{align*}
   &f : \{q \in Q_{A} \mid S(q) \neq \emptyset\} \to \{[x] \mid x \in \Sigma^{*}\} \\
   &f(q) = [x] \text{ with } S(q) \subseteq [x]
