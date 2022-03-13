@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{silence}
+\usepackage{mathrsfs}
 \WarningsOff[latex]
 \usepackage{float}
 \graphicspath{ {./pics/} }
@@ -12,19 +13,8 @@
 
 \begin{document}
 \subsection*{Exercise 1.}
-\paragraph*{(a)(i)} We prove that \(\delta\) is well defined by a contrapositive proof i.e. 
-\begin{equation*}
-  \text{if } \exists a \in \Sigma \ [xa] \neq [ya], \text{ then } [x] \neq [y]
-\end{equation*}
-Suppose \([xa] \neq [ya]\) for \(a \in \Sigma\), then by the definition of the equivalence classes of \(R_{L}\), \((xa, ya) \notin R_{L}\).
-\begin{align*}
-  (xa, ya) \notin R_{L} \Leftrightarrow \exists w \in \Sigma^{*}\ (xaw \in L \land yaw \notin L \text{ (or vice versa)})
-\end{align*}
-Let \(z = aw\), we now have \(xz \in L \land yz \notin L\) (or vice versa).
-\begin{align*}
-  (xz \in L \land yz \notin L) \Leftrightarrow (x, y) \notin R_{L} \Leftrightarrow [x] \neq [y]
-\end{align*}
-Hence, by the contrapositive proof, if \([x] = [y]\), then \([xa] = [ya]\) for all \(a \in \Sigma\).
+\paragraph*{(a)(i)} We prove that \(\delta\) is well defined by a contrapositive proof i.e. if \(\exists a \in \Sigma \ [xa] \neq [ya]\), then \([x] \neq [y]\).
+Suppose \([xa] \neq [ya]\) for \(a \in \Sigma\), then \((xa, ya) \notin R_{L}\). This means that \(\exists w \in \Sigma^{*}\) such that \(xaw \in L\) but \(yaw \notin L\) or vice versa. Now let \(z = aw\), we have \(xz \in L \land yz \notin L\) or vice versa. Hence, \((x, y) \notin R_{L}\) and \([x] \neq [y]\). We conclude by contrapositive that if \([x] = [y]\) then \([xa] = [ya]\) for all \(a \in \Sigma\).
 \paragraph*{(ii)} We prove a more general statement i.e. \(\forall x \in \Sigma^{*}\ \hat{\delta}([\epsilon], x) = [x]\).\\
 This implies \(\hat{\delta}([\epsilon], x) \in F\) iff \(x \in L\). Since if \(x \in L\), then by the definition of \(F\), \([x] = \hat{\delta}([\epsilon], x) \in F\). Conversely, if \(\hat{\delta}([\epsilon], x) \in F \Leftrightarrow [x] \in F\), then by the definition of \(F\), \(x \in L\). \\
 Now we prove the lemma by an induction on \(|x|\).
@@ -68,11 +58,124 @@ Since \(f\) is surjective, then for every state \([x]\) in DFA \(D\), there are 
   \end{itemize}
   Hence, all \(w\) when \(k \geq 2\) satisfies the pumping lemma.
   \item \(0 \leq j \leq 5\), \(k < 2\) and \(k, l, m \in \mathbb{N}\)\\
-  Note that for \(w \in L\) such that \(|w| \geq 7\), \(w\) should have at least one of \(l\) and \(m\) not being zero.
+  Note that for \(w \in L\) with \(|w| \geq 7\), \(w\) should have at least one of \(l\) and \(m\) not being zero since \(j+k < 7\)
   \begin{itemize}
-    \item if \(l \neq 0\), then we divide \(w = xyz\) such that \(x=a^jc^k\), \(y=a\), \(z=a^{l-1}b^m\). \(|xy|= j+k+1 \leq 7\), \(|y| = 1>0\), 
-  
+    \item if \(l \neq 0 \Leftrightarrow l \geq 1\), then we divide \(w = xyz\) such that \(x=a^jc^k\), \(y=a\), \(z=a^{l-1}b^m\). \(|xy|= j+k+1 \leq 7\), \(|y| = 1>0\), and \(xy^iz = a^jc^ka^ia^{l-1}b^m = a^jc^ka^{i+l-1}b^m\) and \(i+l-1 \geq 0\) for \(i \in \mathbb{N}\), hence \(xy^iz \in L\) for \(\forall i \in \mathbb{N}\)
+    \item if \(l = 0\), then \(m \neq 0 \Leftrightarrow m \geq 1\). We divide \(w = xyz\) such that \(x = a^jc^ka^0\), \(y = b\), \(z = b^{m-1}\). \(|xy|= j+k+1 \leq 7\), \(|y| = 1>0\), and \(xy^iz = a^jc^ka^0b^ib^{m-1}= a^jc^ka^0b^{i+m-1}\) and \(i+m-1 \geq 0\) for \(i \in \mathbb{N}\), hence \(xy^iz \in L\) for \(\forall i \in \mathbb{N}\)
   \end{itemize}
 \end{itemize}
+Hence, we have proven \(L\) satisfies the pumping lemma.
 
+\paragraph*{(b)} We show that \(R_L\) has an infinite number of equivalence classes. \\
+Consider \(u = a^jc^ka^lb^m\) and \(v = a^jc^ka^{l'}b^{m'}\) where \(0 \leq j \leq 5\), \(k \geq 2\), \(l > m\) and \(l' > m'\), \(l - m \neq l' - m'\). Since \(k \geq 2 \land l \neq m \land l' \neq m'\), by definition \(u, v \in L\). Now pick \(w = b^{l-m}\), \(uw = a^jc^ka^lb^mb^{l-m} = a^jc^ka^lb^l \notin L\), but \(vw = a^jc^ka^{l'}b^{m'}b^{l-m} = a^jc^ka^{l'}b^{m'+l-m} \in L\) since \(m'+l-m \neq l'\). Hence, \((u, v) \notin R_L \Leftrightarrow [u] \neq [v]\). In other words, for any pair of \((u, v) \in L\) with \(k \geq 2\) and distinct positive values of \(l-m\), we have \([u] \neq [v]\). Since there is an infinite number of distinct positive values of \(l-m\) for \(l, m \in \mathbb{N}\), there is an infinite number of distinct equivalence classes in \(R_L\). By the Myhill-Nerode Theorem, \(L\) is not regular.
+
+\subsection*{Exercise 3.}
+\paragraph*{(a)} We prove a lemma i.e. \(f(\hat{\delta}(q, w)) = \hat{\delta}'(f(q), w)\) for \(\forall w \in \Sigma^*\), \(\forall q \in Q\).\\
+Let \(q \in Q\), by an induction on \(|w|\),
+\begin{itemize}
+  \item \textbf{Base case} \(w = \epsilon\)\\
+  \(f(\hat{\delta}(q, \epsilon))\) = \(f(q)\) by the def of \(\hat{\delta}\) and \(\hat{\delta}'(f(q), \epsilon) = f(q)\) by def of \(\hat{\delta}'\), hence \(f(\hat{\delta}(q, \epsilon)) = \hat{\delta}'(f(q), \epsilon)\)
+  \item \textbf{Step case} Assume the claim for \(\forall w\) with \(|w| < n\). Now we prove for \(w = xa\) where \(x \in \Sigma^{n-1}\), \(a \in \Sigma\)
+  \begin{align*}
+    f(\hat{\delta}(q, xa)) &= f(\delta(\hat{\delta}(q, x), a)) \tag*{(def of \(\hat{\delta})\)}\\
+    &= \delta'(f(\hat{\delta}(q, x)), a) \tag*{(def (3) of \(f\))}\\
+    &= \delta'(\hat{\delta}'(f(q), x), a) \tag*{(IH since \(|x| < n\))}\\
+    &= \hat{\delta}'(f(q), xa) \tag*{(def of \(\hat{\delta}'\))}
+  \end{align*}
+\end{itemize}
+Hence, we have proven the lemma.\\
+Now we prove \(\mathscr{L}(P, q) = \mathscr{L}(P', f(q))\) for \(\forall q \in Q\). Let \(q \in Q\), \(w \in \Sigma^*\)
+\begin{align*}
+  w \in \mathscr{L}(P, q) &\Leftrightarrow \hat{\delta}(q, w) \in F \\ 
+  &\Leftrightarrow f(\hat{\delta}(q, w)) \in F' \tag*{(def (2) of \(f\))}\\
+  &\Leftrightarrow \hat{\delta}'(f(q), w) \in F' \tag*{(lemma)} \\
+  &\Leftrightarrow w \in \mathscr{L}(P', f(q))
+\end{align*}
+Hence the claim.
+
+\paragraph*{(b)} 
+\begin{align*}
+  L(P) &= \{w \in \Sigma^* \mid \hat{\delta}(q_0, w) \in F\}\\
+  &= \mathscr{L}(P, q_0) \tag*{(def of \(\mathscr{L}\))}\\
+  &= \mathscr{L}(P', f(q_0) \tag*{(part (a))}\\
+  &= \mathscr{L}(P', q'_0) \tag*{(def (1) of \(f\))}\\
+  &= \{w \in \Sigma^* \mid \hat{\delta}'(q'_0, w) \in F'\} \tag*{(def of \(\mathscr{L}\))}\\
+  &= L(P')
+\end{align*}
+
+\subsection*{Exercise 4.}
+\paragraph*{1.} We show validity of \((r^*)^* = r^*\) by proving \(L((r^*)^*) = L(r^*)\).\\
+\(L((r^*)^*) = L(r^*)^* = (L(r)^*)^* = L(r)^* = L(r^*)\) where the third equaltiy uses the algebraic law of Kleene-*. Now we prove for \(\forall L \subseteq \Sigma^*, (L^*)^* = L^*\). Let \(L \subseteq \Sigma^*\),
+\begin{itemize}
+  \item \(L^* \subseteq (L^*)^*\) since \(L^* = (L^*)^1 \subseteq (L^*)^*\)
+  \item \((L^*)^* \subseteq L^*\)\\
+  Let \(w \in (L^*)^*\), we can write \(w = w_1w_2...w_n\) for \(n \geq 0\) where each \(w_i \in L^*\). We can also write each \(w_i = x_{i1}x_{i2}...x_{il_i}\) for \(l_i \geq 0\) where each \(x_{il_i} \in L\). Then \(w = x_{11}x_{12}...x_{1l_1}..x_{n1}x_{n2}...x_{nl_n} \in L^{\sum_1^n{l_n}} \subseteq L^*\). Hence, \(w \in L^*\). 
+\end{itemize}
+
+\paragraph*{2.} We prove \(L((r+s)^*) = L((r^*s)^*r^*)\). Denote \(R = L(r)\) and \(S = L(s)\) for clarity. By def of reg lang,\\
+\(L((r+s)^*) = L(r+s)^* = (L(r) \cup L(s))^* = (R \cup S)^*\)\\
+\(L((r^*s)^*r^*) =  L((r^*s)^*)L(r^*) = L(r^*s)^*L(r)^* = (L(r^*)L(s))^*R^* = (L(r)^*S)^*R^* = (R^*S)^*R^*\)\\
+In other words, we prove \((R \cup S)^* = (R^*S)^*R^*\).
+\begin{itemize}
+  \item \((R \cup S)^* \subseteq (R^*S)^*R^*\)\\
+  We prove the lemma that for \(\forall n \geq 0\), \((R \cup S)^n \subseteq (R^*S)^*R^*\), then by def of set union, \((R \cup S)^* = \cup_{n \geq 0}(R \cup S)^n \subseteq (R^*S)^*R^*\). By an induction on n,
+  \begin{itemize}
+    \item n = 0 \((R \cup S)^0 = \{\epsilon\} = \{\epsilon\}\{\epsilon\} = (R^*S)^0R^0 \subseteq (R^*S)^*R^*\)
+    \item prove \((R \cup S)^{n+1} \subseteq (R^*S)^*R^*\)
+    \begin{align*}
+      (R \cup S)^{n+1} &= (R \cup S)^{n} (R \cup S) \tag*{(concat of lang)}\\
+      &= \{xa \in \Sigma^* \mid x \in (R \cup S)^{n}, a \in (R \cup S)\} \tag*{(set notation of concat)}\\
+      &\subseteq \{xa \in \Sigma^* \mid x \in (R^*S)^*R^*, a \in (R \cup S)\} \tag*{(IH)}\\
+      &= \{xa \in \Sigma^* \mid x \in (R^*S)^*R^*, a \in R\} \cup \{xa \in \Sigma^* \mid x \in (R^*S)^*R^*, a \in S\} \\
+      &= ((R^*S)^*R^*)R \cup ((R^*S)^*R^*)S \tag*{(set def of concat)}
+    \end{align*}
+    We show both subsets are in \((R^*S)^*R^*\). But first we prove some laws.\\
+    \textbf{L1.} \(\forall L \subseteq \Sigma^*\), \(L^*L \subseteq L^*\)\\
+    Proof. \(L^*L = (\cup_{n \geq 0}L^n)L = \{xa \in \Sigma^* \mid x \in \cup_{n \geq 0}L^n, a \in L\} = \cup_{n \geq 0}\{xa \in \Sigma^* \mid x \in L^n, a \in L\} = \cup_{n \geq 0}(L^nL) = \cup_{n \geq 0}L^{n+1} = \cup_{n \geq 1}L^{n} \subseteq L^*\)\\
+    \textbf{L2.} \(\forall L, M, N \subseteq \Sigma^*\), \(M \subseteq N \Rightarrow LM \subseteq LN\)\\
+    Proof. Suppose \(M, N \subseteq \Sigma^*\) with \(M \subseteq N\). Let \(w \in LM\). Write \(w = xa\), where \(x \in L, a \in M\). Since \(M \subseteq N\), \(a \in N\). Then \(w = xa \in LN\). In short, \(LM = \{xa \in \Sigma^* \mid x \in L, a \in M\} \subseteq \{xa \in \Sigma^* \mid x \in L, a \in N\} = LN\)\\
+    Back to the proof
+    \begin{itemize}
+      \item \(((R^*S)^*R^*)R \subseteq (R^*S)^*R^*\)
+      \begin{align*}
+        &R^*R \subseteq R^* \tag*{(L1)}\\
+        &\Rightarrow (R^*S)^*(R^*R) \subseteq (R^*S)^*R^* \tag*{(L2)}\\
+        &\Leftrightarrow ((R^*S)^*R^*)R \subseteq (R^*S)^*R^* \tag*{(associativity)}
+      \end{align*}
+      \item \(((R^*S)^*R^*)S \subseteq (R^*S)^*R^*\)
+      \begin{align*}
+        & (R^*S)^*(R^*S) \subseteq (R^*S)^* \tag*{(L1)}\\
+        &\Leftrightarrow ((R^*S)^*R^*)S \subseteq (R^*S)^* = (R^*S)^*\{\epsilon\}
+        = (R^*S)^*R^0 \subseteq (R^*S)^*R^*
+        \tag*{(assoc \& concat with \(\{\epsilon\}\))}
+      \end{align*}
+    \end{itemize}
+    Hence the step case. 
+  \end{itemize}
+  Hence the lemma.
+  \item \((R^*S)^*R^* \subseteq (R \cup S)^*\)\\
+  \textbf{L3.} for \(\forall M,N \in \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
+  Proof. Suppose \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i 
+  \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
+  \textbf{L4.} for \(\forall M,N,X,Y \in \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
+  Proof. Suppose \(M \subseteq N \land X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Hence, \(w \in NY\). \(MX \subseteq NY\).\\
+  Now we can prove \((R^*S)^*R^* \subseteq (R \cup S)^*\).\\
+  Since \(R \subseteq (R \cup S)\), by L3 we have \(R^* \subseteq (R \cup S)^*\). Also, \(S \subseteq (R \cup S)\), by L4 \(R^*S \subseteq (R \cup S)^*(R \cup S) \overset{L1}{\subseteq} (R \cup S)^*\). By L3 again, \((R^*S)^* \subseteq ((R \cup S)^*)^* \overset{part 1}{=} (R \cup S)^*\). By L4, \((R^*S)^*R^* \subseteq (R \cup S)^*(R \cup S)^* = ((R \cup S)^*)^2 \subseteq ((R \cup S)^*)^* \overset{part 1}{=} (R \cup S)^*\).
+\end{itemize}
+Hence, we have formally proven \(L((r+s)^*) = L((r^*s)^*r^*)\), thus the validity of \((r+s)^* = (r^*s)^*r^*\).
+
+\paragraph*{3.} Let \(R = L(r)\), \(S = L(s)\).\\
+\(L((rs)^*) = L(rs)^* = (L(r)L(s))^* = (RS)^*\)\\
+\(L(\epsilon + r(sr)^*s) = L(\epsilon) \cup L(r(sr)^*s) = \{\epsilon\} \cup L(r(sr)^*)L(s) = \{\epsilon\} \cup L(r)L((sr)^*)S = \{\epsilon\} \cup RL(sr)^*S = \{\epsilon\} \cup R(L(s)L(r))^*S = \{\epsilon\} \cup R(SR)^*S\)\\
+We prove \((RS)^* = \{\epsilon\} \cup R(SR)^*S\) by equaltiy of the subsets, i.e, \((RS)^0 = \{\epsilon\}\) and \((RS)^n = R(SR)^{n-1}S\) for \(\forall n \geq 1\).
+\begin{itemize}
+  \item \((RS)^0 = \{\epsilon\}\) by definition
+  \item we prove by induction on \(n\) that \((RS)^n = R(SR)^{n-1}S\) for \(\forall n \geq 1\).
+  \begin{itemize}
+    \item \textbf{Base case} n = 1. \((RS)^1 = RS = (R\{\epsilon\})S = (R(SR)^0)S = R(SR)^0S \)
+    \item \textbf{Step case} \((RS)^{n+1} = (RS)^n(RS) \overset{IH}{=} (R(SR)^{n-1}S)(RS) \overset{assoc}{=} ((R(SR)^{n-1}S)R)S\\ \overset{assoc}{=} (R(SR)^{n-1}(SR))S = (R(SR)^{n})S = R(SR)^{n}S\)
+  \end{itemize}
+  Hence \(\cup_{n \geq 1}(RS)^n = \cup_{n \geq 1} R(SR)^{n-1}S = \cup_{n \geq 0} R(SR)^{n}S\)
+\end{itemize}
+From above, \((RS)^* = \cup_{n \geq 0}(RS)^n = (RS)^0 \cup (\cup_{n \geq 1}(RS)^n)\) = \(\{\epsilon\} \cup (\cup_{n \geq 0} R(SR)^{n}S) = \{\epsilon\} \cup R(SR)^*S\). Hence, \((rs)^* = \epsilon + r(sr)^*s\) is valid.
 \end{document}
