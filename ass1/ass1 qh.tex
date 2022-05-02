@@ -35,13 +35,13 @@ Hence, we have proven the lemma.
 \end{equation*}
 \(f\) is well defined since
 \begin{itemize}
-  \item for each \(q \in Q_{A}\), there exists a \(f(q) \in Q\). Let \(q \in Q_A\), then \(\exists w \in \Sigma^*\) such that \(q = \hat{\delta}_A(q_{0_{A}}, w)\) since \(q\) is a reachable state by construction. By def of the constructed \(f\), we have \(f(q) = \hat{\delta}(q_0, w) = \hat{\delta}([\epsilon], w) \overset{part (b)}{=} [w] \in Q\)
-  \item and each \(q \in Q_{A}\) has a unique mapping \(f(q) \in Q\). Suppose \(\hat{\delta}_A(q_{0_{A}}, x) = \hat{\delta}_A(q_{0_{A}}, y)\) for \(x \neq y\), we show \(\hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\). Let \(w \in \Sigma^*\). \(xw \in L \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, xw) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, x), w) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, y), w) \in F_A \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, yw) \in F_A \Leftrightarrow yw \in L\). Hence, \(\forall w \in \Sigma^*, xw \in L \Leftrightarrow yw \in L\), i.e. \((x,y) \in R_L \Leftrightarrow [x] = [y] \Leftrightarrow \hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\)
+  \item for each \(q \in Q_{A}\), there exists a \(f(q) \in Q\). Let \(q \in Q_A\), then \(\exists w \in \Sigma^*\) such that \(q = \hat{\delta}_A(q_{0_{A}}, w)\) since \(q\) is a reachable state by construction. By def of the constructed \(f\), we have \(f(q) = \hat{\delta}(q_0, w) = \hat{\delta}([\epsilon], w) \overset{part (a)(ii)}{=} [w] \in Q\)
+  \item and each \(q \in Q_{A}\) has a unique mapping \(f(q) \in Q\). Suppose \(\hat{\delta}_A(q_{0_{A}}, x) = \hat{\delta}_A(q_{0_{A}}, y)\) for \(x \neq y\), we show \(\hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\). Let \(w \in \Sigma^*\). \(xw \in L \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, xw) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, x), w) \in F_A \Leftrightarrow \hat{\delta}_A(\hat{\delta}_A(q_{0_{A}}, y), w) \in F_A \Leftrightarrow \hat{\delta}_A(q_{0_{A}}, yw) \in F_A \Leftrightarrow yw \in L\). Hence, \(\forall w \in \Sigma^*, xw \in L \Leftrightarrow yw \in L\), i.e. \((x,y) \in R_L \Leftrightarrow [x] = [y] \overset{part (a)(ii)}{\Leftrightarrow} \hat{\delta}(q_0, x) = \hat{\delta}(q_0, y)\)
 \end{itemize}
 If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one state \([x] \in D\) such that for \(\forall w \in \Sigma^*\), \(f(\hat{\delta}_A(q_{0_{A}}, w)) \neq [x]\). However, for \(x\), \(f(\hat{\delta}_A(q_{0_{A}}, x)) = \hat{\delta}(q_0, x) = [x]\), a contradiction. Therefore, \(A\) must have at least as many states as \(D\). For \(A\) with unreachable states, it must be more. Hence \(D\) is the minimal DFA for \(L\).
 
 \subsection*{Exercise 2.} 
-\paragraph*{(a)} Pick n=7. We consider \(w=a^jc^ka^lb^m \in L\) with \(|w| \geq 7\) in two separate cases.
+\paragraph*{(a)} Pick n=7. We consider \(\forall w=a^jc^ka^lb^m \in L\) with \(|w| \geq 7\) in two separate cases.
 \begin{itemize}
   \item \(0 \leq j \leq 5\), \(k \geq 2\) and \(l \neq m\)\\
   Divide \(w = xyz\) as \(x = a^jc\), \(y=c\), and \(z=c^{k-2}a^lb^m\). \(|xy| = j+2 \leq 7\) since \(0 \leq j \leq 5\), \(|y| = 1 > 0\), and by pumping \(y\), we get
@@ -63,7 +63,7 @@ If \(A\) has fewer states than \(D\), then \(f\) means there exists at least one
 Hence, we have proven \(L\) satisfies the pumping lemma.
 
 \paragraph*{(b)} We show that \(R_L\) has an infinite number of equivalence classes. \\
-Consider \(u = a^jc^ka^lb^m\) and \(v = a^jc^ka^{l'}b^{m'}\) where \(0 \leq j \leq 5\), \(k \geq 2\), \(l > m\) and \(l' > m'\), and \(l - m \neq l' - m'\). Now pick \(w = b^{l-m}\), \(uw = a^jc^ka^lb^mb^{l-m} = a^jc^ka^lb^l \notin L\) since \(k \geq 2\) but \(l = m\); on the other hand, \(vw = a^jc^ka^{l'}b^{m'}b^{l-m} = a^jc^ka^{l'}b^{m'+l-m} \in L\) since \(m'+l-m \neq l'\). Hence, \((u, v) \notin R_L \Leftrightarrow [u] \neq [v]\). In other words, for any pair of \((u, v) \in \Sigma^* \times \Sigma^*\) defined as above with \(k \geq 2\) and distinct positive values of \(l-m\), we have \([u] \neq [v]\). Since there is an infinite number of distinct positive values of \(l-m\) for \(l, m \in \mathbb{N}\), there is an infinite number of distinct equivalence classes in \(R_L\). By the Myhill-Nerode Theorem, \(L\) is not regular.
+Consider \(u = a^jc^ka^lb^m\) and \(v = a^jc^ka^{l'}b^{m'}\) where \(0 \leq j \leq 5\), \(k \geq 2\), \(l > m\) and \(l' > m'\), and \(l - m \neq l' - m'\). Now pick \(w = b^{l-m}\), \(uw = a^jc^ka^lb^mb^{l-m} = a^jc^ka^lb^l \notin L\) since \(k \geq 2\) but \(l = m\); on the other hand, \(vw = a^jc^ka^{l'}b^{m'}b^{l-m} = a^jc^ka^{l'}b^{m'+l-m} \in L\) since \(m'+l-m \neq l'\). Hence, \((u, v) \notin R_L \Leftrightarrow [u] \neq [v]\). In other words, for any pair of \((u, v) \in \Sigma^* \times \Sigma^*\) defined as above with \(0 \leq j \leq 5\), \(k \geq 2\) and distinct positive values of \(l-m\), we have \([u] \neq [v]\). Since there is an infinite number of distinct positive values of \(l-m\) for \(l, m \in \mathbb{N}\), there is an infinite number of distinct equivalence classes in \(R_L\). By the Myhill-Nerode Theorem, \(L\) is not regular.
 
 \subsection*{Exercise 3.}
 \paragraph*{(a)} We prove a lemma i.e. \(f(\hat{\delta}(q, w)) = \hat{\delta}'(f(q), w)\) for \(\forall w \in \Sigma^*\), \(\forall q \in Q\).\\
@@ -105,7 +105,7 @@ Hence the claim.
 \begin{itemize}
   \item \(L^* \subseteq (L^*)^*\) since \(L^* = (L^*)^1 \subseteq (L^*)^*\)
   \item \((L^*)^* \subseteq L^*\)\\
-  Let \(w \in (L^*)^*\), we can write \(w = w_1w_2...w_n\) for \(n \geq 0\) where each \(w_i \in L^*\). We can also write each \(w_i = w_{i1}w_{i2}...w_{il_i}\) for \(l_i \geq 0\) where each \(w_{il_i} \in L\). Then \(w = w_{11}w_{12}..w_{1l_1}...w_{n1}w_{n2}..w_{nl_n} \in L^{\sum_1^n{l_n}} \subseteq L^*\). Hence, \((L^*)^* \subseteq L^*\). 
+  Let \(w \in (L^*)^*\), we can write \(w = w_1w_2...w_n\) for \(n \geq 0\) where each \(w_i \in L^*\). We can also write each \(w_i = w_{i1}w_{i2}...w_{il_i}\) for \(l_i \geq 0\) where each \(w_{il_i} \in L\). Then \(w = w_{11}w_{12}..w_{1l_1}...w_{n1}w_{n2}..w_{nl_n} \in L^{\sum_1^n{l_i}} \subseteq L^*\). Hence, \((L^*)^* \subseteq L^*\). 
 \end{itemize}
 
 \paragraph*{2.} We prove \(L((r+s)^*) = L((r^*s)^*r^*)\). Denote \(R = L(r)\) and \(S = L(s)\) for clarity.
@@ -119,10 +119,10 @@ Proof. Suppose \(L \subseteq \Sigma^*\). Let \(w \in L^*L\). Then we can write \
 \textbf{L2.} \(\forall L, M, N \subseteq \Sigma^*\), \(M \subseteq N \Rightarrow LM \subseteq LN\)\\
 Proof. Suppose \(M, N \subseteq \Sigma^*\) with \(M \subseteq N\). Let \(w \in LM\). We can write \(w = xa\), where \(x \in L, a \in M\). Since \(M \subseteq N\), then \(a \in N\), and \(w = xa \in LN\). Hence, \(LM 
 \subseteq LN\).\\
-\textbf{L3.} \(\forall M,N \in \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
-Proof. Suppose \(M,N \in \Sigma^*\) with \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
-\textbf{L4.} \(\forall M,N,X,Y \in \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
-Proof. Suppose \(M,N,X,Y \in \Sigma^*\) with \(M \subseteq N\) and \(X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Then \(w = ax \in NY\). Hence, \(MX \subseteq NY\).
+\textbf{L3.} \(\forall M,N \subseteq \Sigma^*\), \(M \subseteq N \Rightarrow M^* \subseteq N^*\)\\
+Proof. Suppose \(M,N \subseteq \Sigma^*\) with \(M \subseteq N\). Let \(w \in M^*\), then we can write \(w = w_1w_2...w_n\) where each \(w_i \in M\). Since \(M \subseteq N\), hence each \(w_i \in N\). Then \(w = w_1w_2...w_n \in N^*\). Hence, \(M^* \subseteq N^*\).\\
+\textbf{L4.} \(\forall M,N,X,Y \subseteq \Sigma^*\), \(M \subseteq N \land X \subseteq Y \Rightarrow MX \subseteq NY\)\\
+Proof. Suppose \(M,N,X,Y \subseteq \Sigma^*\) with \(M \subseteq N\) and \(X \subseteq Y\). Let \(w \in MX\), then \(w = ax\) where \(a \in M\), \(x \in X\). Since \(M \subseteq N\) and \(X \subseteq Y\), then \(a \in N\) and \(x \in Y\). Then \(w = ax \in NY\). Hence, \(MX \subseteq NY\).
 \begin{itemize}
   \item \((R \cup S)^* \subseteq (R^*S)^*R^*\)\\
   We prove a lemma that \(\forall n \geq 0\), \((R \cup S)^n \subseteq (R^*S)^*R^*\). By an induction on n,
@@ -154,7 +154,7 @@ We prove \((RS)^* = \{\epsilon\} \cup R(SR)^*S\) by equaltiy of the subsets, i.e
   \item we prove by an induction on \(n\) that \((RS)^n = R(SR)^{n-1}S\) for \(\forall n \geq 1\).
   \begin{itemize}
     \item \textbf{Base case} n = 1. \((RS)^1 = RS = (R\{\epsilon\})S = (R(SR)^0)S = R(SR)^0S \)
-    \item \textbf{Step case} \((RS)^{n+1} = (RS)^n(RS) \overset{IH}{=} (R(SR)^{n-1}S)(RS) \overset{assoc}{=} ((R(SR)^{n-1}S)R)S\\ \overset{assoc}{=} (R(SR)^{n-1}(SR))S = (R(SR)^{n})S = R(SR)^{n}S\)
+    \item \textbf{Step case} Assume the claim \((RS)^n = R(SR)^{n-1}S\), prove for the case of \(n+1\). \((RS)^{n+1} = (RS)^n(RS) \overset{IH}{=} (R(SR)^{n-1}S)(RS) \overset{assoc}{=} ((R(SR)^{n-1}S)R)S \overset{assoc}{=} (R(SR)^{n-1}(SR))S \\ = (R(SR)^{n})S = R(SR)^{n}S\)
   \end{itemize}
   Hence \(\cup_{n \geq 1}(RS)^n = \cup_{n \geq 1} R(SR)^{n-1}S = \cup_{n \geq 0} R(SR)^{n}S\)
 \end{itemize}
@@ -169,7 +169,7 @@ From above, \((RS)^* = \cup_{n \geq 0}(RS)^n = (RS)^0 \cup (\cup_{n \geq 1}(RS)^
 \paragraph*{(b)} \(G\) is ambiguous because there exists \(w \in L(G)\) that has two parse trees. Consider \(w = abbbbb \in L(G)\). The following two parse trees generate the same string \(abbbbb\).
 \begin{figure}[htp!]
   \centering
-  \includegraphics[scale = 0.9]{ex5b.pdf}
+  \includegraphics[scale = 0.8]{ex5b.pdf}
 \end{figure}
 
 \paragraph*{(c)} \(G' = (\{S, A, V, N\}, \{a, b\}, S, P)\) where \(P\) is defined by the following productions:

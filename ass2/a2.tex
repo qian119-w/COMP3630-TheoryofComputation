@@ -1,0 +1,232 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{silence}
+\usepackage{mathrsfs}
+\WarningsOff[latex]
+\usepackage{float}
+\graphicspath{ {./} }
+\linespread{1.2}
+\newcommand{\code}{\texttt}
+\usepackage{tikz}
+\usetikzlibrary{shapes.misc, positioning}
+
+\begin{document}
+\subsection*{Exercise 1.}
+\paragraph*{(a).} We first prove some lemmas about the rewinding states \(q_1\), \(q_2\) and \(q_3\).\\
+\textbf{L1.} For \(\forall \alpha, \beta \in \Sigma^*, \forall n \in \mathbb{N}\), and \(x \in \{a, Y\}\), \(\alpha q_1x^n\beta \vdash^{*}_{\mathcal{M}} \alpha x^nq_1\beta\).\\
+\textbf{Proof.} Let \(\alpha, \beta \in \Sigma^*\) be arbitrary. We prove by induction on \(n\). \\ 
+Base case. \(n = 0\), \(x^n = \epsilon\). \(\alpha q_1 \beta \vdash^{*}_{\mathcal{M}} \alpha q_1 \beta\) is trivially true.\\ 
+Step case. Assume true for some \(n > 0\), we prove for the case of \(n+1\). 
+\begin{equation*}
+  \alpha q_1x^{n+1}\beta \vdash_{\mathcal{M}} \alpha xq_1x^n\beta \vdash^*_\mathcal{M} \alpha x x^n q_1\beta
+\end{equation*}
+where the first step is by the transition function of TM \(\mathcal{M}\) on \(x \in \{a, Y\}\) and state \(q_1\), and the second step applies IH by treating \(\alpha x\) as the new \(\alpha\).\\
+\textbf{L2.} For \(\forall \alpha, \beta \in \Sigma^*, \forall n \in \mathbb{N}\), and \(x \in \{b, Z\}\), \(\alpha q_2x^n\beta \vdash^*_\mathcal{M} \alpha x^nq_2\beta\).\\
+\textbf{Proof.} Similar to L1.\\
+\textbf{L3.} For \(\forall \alpha = \gamma a\) where \(a \in \Sigma\) or \(a = \epsilon\), \(\gamma \in \Sigma^*\) and for \(\forall \beta \in \Sigma^*\) and \(\forall n \in \mathbb{N}\), and \(x \in \{a, Y, b, Z\}\), \(\alpha x^nq_3x\beta \vdash^{*}_{\mathcal{M}} \gamma q_3a x^{n+1}\beta\). If \(\alpha = \epsilon\), then \(\alpha x^nq_3x\beta \vdash^{*}_{\mathcal{M}} q_3B x^{n+1}\beta\).\\
+\textbf{Proof.} Let \(\alpha, \beta \in \Sigma^*\) be arbitrary. Induct on \(n\).\\
+Base case. \(n = 0\).  \(\alpha x^nq_3x\beta = \alpha q_3x\beta \vdash_\mathcal{M}\gamma q_3ax\beta = \gamma q_3a x^{n+1}\beta\) by one step transition.\\
+Step case. Assume true for some \(n > 0\), we prove for the case of \(n+1\). \\
+\begin{equation*}
+  \alpha x^{n+1}q_3x\beta \vdash_\mathcal{M} \alpha x^nq_3xx\beta \vdash^*_\mathcal{M} \gamma q_3ax^{n+1}x\beta
+\end{equation*}
+where the first step is by one step transition in \(q_3\) and the second step applies IH by treating \(x\beta\) as the new \(\beta\).\\
+\textbf{Proof for (a)}
+Let \(i, j \in \mathbb{N}, j \geq 1\) be arbitrary.
+\begin{align}
+  X^iq_0a^jY^ib^jZ^ic^j &\vdash_\mathcal{M} X^iXq_1a^{j-1}Y^ib^jZ^ic^j \tag*{(transition from \(q_0\) to \(q_1\))}\\
+  & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-1}q_1Y^ib^jZ^ic^j \tag*{(since \(j-1 \in \mathbb{N}\), apply L1 by taking \(x = a\))}\\
+  & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-1}Y^iq_1b^jZ^ic^j \tag*{(since \(i \in \mathbb{N}\), apply L1 by taking \(x = Y\))}\\
+  & \vdash_\mathcal{M} X^{i+1}a^{j-1}Y^iYq_2b^{j-1}Z^ic^j \tag*{(transition from \(q_1\) to \(q_2\))}\\
+  & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-1}Y^{i+1}b^{j-1}q_2Z^ic^j \tag*{(L2 by taking \(x = b\))}\\
+  & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-1}Y^{i+1}b^{j-1}Z^iq_2c^j \tag*{(L2 by taking \(x = Z\))}
+\end{align}
+Here we consider four cases since the representation of IDs after the transition from \(q_2\) to \(q_3\) is different.
+\begin{itemize}
+  \item if \(i = 0\) and \(j = 1\).
+  \begin{align*}
+    X^{i+1}a^{j-1}Y^{i+1}b^{j-1}Z^iq_2c^j &= XYq_2c \\
+    & \vdash_\mathcal{M} Xq_3YZ \tag*{(transition from \(q_2\) to \(q_3\))}\\
+    & \vdash^{*}_\mathcal{M} q_3XYZ \tag*{(L3 by taking \(x = Y\))}\\
+    & \vdash_\mathcal{M} Xq_0YZ \tag*{(transition from \(q_3\) to \(q_0\))}\\
+    &= X^{i+1}q_0a^{j-1}Y^{i+1}b^{j-1}Z^{i+1}c^{j-1}
+  \end{align*}
+  \item if \(i = 0\) and \(j > 1\).
+  \begin{align*}
+    X^{i+1}a^{j-1}Y^{i+1}b^{j-1}Z^iq_2c^j &= Xa^{j-1}Yb^{j-1}q_2c^j \\
+    & \vdash_\mathcal{M} Xa^{j-1}Yb^{j-2}q_3bZc^{j-1} \tag*{(transition from \(q_2\) to \(q_3\))}\\
+    & \vdash^{*}_\mathcal{M} Xa^{j-1}q_3Yb^{j-1}Zc^{j-1} \tag*{(L3 by taking x = b)}\\
+    & \vdash^{*}_\mathcal{M} Xa^{j-2}q_3aYb^{j-1}Zc^{j-1} \tag*{(L3 by taking x = Y)}\\
+    & \vdash^{*}_\mathcal{M} q_3Xa^{j-1}Yb^{j-1}Zc^{j-1} \tag*{(L3 by taking x = a)}\\
+    & \vdash_\mathcal{M} Xq_0a^{j-1}Yb^{j-1}Zc^{j-1} \tag*{(transition from \(q_3\) to \(q_0\))}\\
+    &= X^{i+1}q_0a^{j-1}Y^{i+1}b^{j-1}Z^{i+1}c^{j-1}
+  \end{align*}
+  \item if \(i > 0\) and \(j = 1\).
+  \begin{align*}
+    X^{i+1}a^{j-1}Y^{i+1}b^{j-1}Z^iq_2c^j &= X^{i+1}Y^{i+1}Z^iq_2c \\
+    & \vdash_\mathcal{M} X^{i+1}Y^{i+1}Z^{i-1}q_3ZZ \tag*{(transition from \(q_2\) to \(q_3\))}\\
+    & \vdash^{*}_\mathcal{M} X^{i+1}Y^iq_3YZ^{i+1} \tag*{(L3 by taking x = Z)}\\
+    & \vdash^{*}_\mathcal{M} X^iq_3XY^{i+1}Z^{i+1} \tag*{(L3 by taking x = Y)}\\
+    & \vdash_\mathcal{M} X^{i+1}q_0Y^{i+1}Z^{i+1} \tag*{(transition from \(q_3\) to \(q_0\))}\\
+    &= X^{i+1}q_0a^{j-1}Y^{i+1}b^{j-1}Z^{i+1}c^{j-1}
+  \end{align*}
+  \item if \(i > 0\) and \(j > 1\).
+  \begin{align*}
+    X^{i+1}a^{j-1}Y^{i+1}b^{j-1}Z^iq_2c^j & \vdash_\mathcal{M} X^{i+1}a^{j-1}Y^{i+1}b^{j-1}Z^{i-1}q_3ZZc^{j-1} \tag*{(transition from \(q_2\) to \(q_3\))}\\
+    & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-1}Y^{i+1}b^{j-2}q_3bZ^{i+1}c^{j-1} \tag*{(L3 by taking x = Z)}\\
+    & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-1}Y^iq_3Yb^{j-1}Z^{i+1}c^{j-1} \tag*{(L3 by taking x = b)}\\
+    & \vdash^{*}_\mathcal{M} X^{i+1}a^{j-2}q_3aY^{i+1}b^{j-1}Z^{i+1}c^{j-1} \tag*{(L3 by taking x = Y)}\\
+    & \vdash^{*}_\mathcal{M} X^iq_3Xa^{j-1}Y^{i+1}b^{j-1}Z^{i+1}c^{j-1} \tag*{(L3 by taking x = a)}\\
+    & \vdash_\mathcal{M} X^{i+1}q_0a^{j-1}Y^{i+1}b^{j-1}Z^{i+1}c^{j-1} \tag*{(transition from \(q_3\) to \(q_0\))}\\
+  \end{align*}
+  \end{itemize}
+Hence, we have proven that for all \(i, j \in \mathbb{N}\) with \(j \geq 1\) that \(X^iq_0a^jY^ib^jZ^ic^j \vdash^{*}_\mathcal{M} X^{i+1}q_0a^{j-1}Y^{i+1}b^{j-1}Z^{i+1}c^{j-1}\)
+\paragraph*{(b).} Similarly, we have a simple lemma for the rewinding state \(q_4\).  \\
+\textbf{L4.} For \(\forall \alpha, \beta \in \Sigma^*, \forall n \in \mathbb{N}\), and \(x \in \{Y, Z\}\), \(\alpha q_4x^n\beta \vdash^{*}_{\mathcal{M}} \alpha x^nq_4\beta\).\\
+\textbf{Proof.} Similar to L1.\\
+\textbf{L5.} For \(\forall j \geq 1\), \(j \in \mathbb{N}\), for \(\forall i \in \mathbb{N}\), \(X^iq_0a^jY^ib^jZ^ic^j \vdash^{*}_\mathcal{M} X^{i+j}q_0Y^{i+j}Z^{i+j}\)\\
+\textbf{Proof.} Let \(i \in \mathbb{N}\) be arbitrary. We induct on \(j\).\\
+Base case. \(j = 1\). \(X^iq_0aY^ibZ^ic \vdash^{*}_\mathcal{M} X^{i+1}q_0Y^{i+1}Z^{i+1} = X^{i+j}q_0Y^{i+j}Z^{i+j}\)  by applying the result of part (a).\\
+Step case. Assume true for some \(j > 1\), we prove for the case of \(j+1\).
+\begin{align*}
+  X^iq_0a^{j+1}Y^ib^{j+1}Z^ic^{j+1} &\vdash^{*}_\mathcal{M} X^{i+1}q_0a^jY^{i+1}b^jZ^{i+1}c^j \tag*{(result of part(a) since \(i \in \mathbb{N}\) and \(j+1 \geq 1\))}\\
+  &\vdash^{*}_\mathcal{M} X^{i+1+j}q_0Y^{i+1+j}Z^{i+1+j} \tag*{(IH since \(i\) is arbitrary in the IH)}\\
+  &= X^{i+j+1}q_0Y^{i+j+1}Z^{i+j+1}
+\end{align*}
+Hence, we have proven L5 by induction.\\
+Now for any \(w \in L\), \(w = a^kb^kc^k\) for some \(k \geq 1\).
+\begin{align*}
+  q_0a^kb^kc^k &= X^0q_0a^kY^0b^kZ^0c^k \\
+  &\vdash^{*}_\mathcal{M} X^{k}q_0Y^{k}Z^{k} \tag*{(L5 by taking \(i = 0\), \(j = k\))}\\
+  &\vdash_\mathcal{M} X^{k}Yq_4Y^{k-1}Z^{k} \tag*{(transition from \(q_0\) to \(q_4\))}\\
+  &\vdash^{*}_\mathcal{M} X^{k}Y^kq_4Z^{k} \tag*{(L4 by taking \(x = Y\))}\\
+  &\vdash^{*}_\mathcal{M} X^{k}Y^kZ^{k}q_4 \tag*{(L4 by taking \(x = Z\))}\\
+  &\vdash_\mathcal{M} X^{k}Y^kZ^{k}Bq_5 \tag*{(transition from \(q_4\) to \(q_5\))}
+\end{align*}
+Since \(q_0a^kb^kc^k \vdash^{*}_\mathcal{M} X^{k}Y^kZ^{k}Bq_5\) where \(q_5\) is an accepting state, \(a^kb^kc^k = w\) is accepted by \(\mathcal{M}\). Hence all strings in \(L\) are accepted by \(\mathcal{M}\).
+
+\paragraph*{(c).} We prove by contraposition, i.e. for any string that is not in \(L\), is not accepted by \(\mathcal{M}\), in notation
+  \begin{equation*}
+    w \notin L \Rightarrow q_0w \nvdash^*_\mathcal{M} \alpha q_5 \beta
+  \end{equation*}
+Strings that are not in \(L\) are of the form:
+\begin{itemize}
+  \item The empty string \(\epsilon\).\\ There is no transition from \(q_0\) with the blank symbol, so \(q_0\epsilon \nvdash^*_\mathcal{M} \alpha q_5 \beta\) i.e. \(\epsilon\) is not accepted by \(\mathcal{M}\).
+  \item Any string that starts with \(b\) or \(c\). i.e. \(w = x\delta\) for \(x \in \{b, c\}\), \(\forall \delta \in \Sigma^*\).\\ \(q_0x\delta \nvdash^*_\mathcal{M} \alpha q_5 \beta\) since there is no transition from \(q_0\) to any other states with tape symbol \(b\) or \(c\).
+  \item \(w = a^kc\delta\) for \(\forall k \geq 1\), \(\forall \delta \in \Sigma^*\).\\
+  \(q_0a^kc\delta \vdash_\mathcal{M} Xq_1a^{k-1}c\delta \vdash^*_\mathcal{M} Xa^{k-1}q_1c\delta\) where the first step is the transition from \(q_0\) to \(q_1\) and the second is by \textbf{L1}. There is no transition from \(q_1\) on symbol \(c\) to any other states, so \(q_0a^kc\delta \nvdash^*_\mathcal{M} \alpha q_5 \beta\). strings of the form \(a^kc\delta\) are not accepted.
+  \item \(w = a^k\) for \(\forall k \geq 1\).\\
+  Similar to above, there is no transition from \(q_1\) on the blank symbol to any other states, \(a^k\) is not accepted.
+  \item \(w = a^kb^ja\delta\) for \(\forall k, j \geq 1\), \(\forall \delta \in \Sigma^*\).\\
+  \(q_0a^kb^ja\delta\ \vdash_\mathcal{M} Xq_1a^{k-1}b^ja\delta\ \vdash^*_\mathcal{M} Xa^{k-1}q_1b^ja\delta\ \vdash_\mathcal{M} Xa^{k-1}Yq_2b^{j-1}a\delta\ \vdash^*_\mathcal{M} Xa^{k-1}Yb^{j-1}q_2a\delta \) where the second last step is the transition from \(q_1\) to \(q_2\), and the last step is by \textbf{L2}. There is no transition from \(q_2\) to other states with the symbol \(a\), so \(q_0a^kb^ja\delta \nvdash^*_\mathcal{M} \alpha q_5 \beta\).
+  \item \(w = a^kb^j\) for \(\forall k, j \geq 1\), \(\forall \delta \in \Sigma^*\).\\
+  Similar to above, there is no transition from \(q_2\) on the blank symbol to any other states, so \(q_0a^kb^j \nvdash^*_\mathcal{M} \alpha q_5 \beta\).
+  \item For the rest of proof, we need a lemma.\\
+  \textbf{L6}. For \(\forall n, i, j, k \in \mathbb{N}\) with \(i, j, k \geq 1\), and for \(\forall \gamma \in \{\epsilon, a\delta, b\delta\}\) with \(\delta \in \Sigma^*\):
+  \begin{equation*}
+    X^nq_0a^iY^nb^jZ^nc^k\gamma \vdash^*_\mathcal{M} X^{n+1}q_0a^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma
+  \end{equation*}
+  \textbf{Proof.} The proof is very similar to part (a).\\
+  %  Let \(i, j, k \geq 1\), \(n \geq 0\) be arbitrary.
+  % \begin{align*}
+  %   X^nq_0a^iY^nb^jZ^nc^k\gamma &\vdash_\mathcal{M} X_nXq_1a^{i-1}Y^nb^jZ^nc^k\gamma\\
+  %   &\vdash^*_\mathcal{M} X^{n+1}a^{i-1}Y^nq_1b^jZ^nc^k\gamma \tag*{(L1 by taking \(x = a\) and \(Y\))}\\
+  %   &\vdash_\mathcal{M} X^{n+1}a^{i-1}Y^nYq_2b^{j-1}Z^nc^k\gamma\\
+  %   &\vdash^*_\mathcal{M} X^{n+1}a^{i-1}Y^nYb^{j-1}Z^nq_2c^k\gamma \tag*{(L2 by taking \(x = b\) and \(Z\))}\\
+  %   &\vdash_\mathcal{M} X^{n+1}a^{i-1}Y^{n+1}b^{j-1}Z^{n-1}q_3ZZc^{k-1}\gamma \tag*{(* we don't look into cases for simplicity)}\\
+  %   &\vdash^*_\mathcal{M} X^{n}q_3Xa^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma \tag*{(L3 by taking \(x = Z, b, Y, a\))}\\
+  %   &\vdash_\mathcal{M} X^{n+1}q_0a^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma
+  % \end{align*}
+  The rest of strings not in \(L\) are of the form 
+  \begin{itemize}
+    \item \(w = a^ib^jc^k\gamma\) for \(\forall i,j,k \geq 1\), \(i \neq j \lor  j \neq k \lor i \neq k\), and \(\gamma \in \{\epsilon, a\delta, b\delta\}\), \(\delta \in \Sigma^*\)
+    \item \(w = a^ib^jc^k\gamma\) for \(i = j = k\) and \(\gamma \in \{a\delta, b\delta\}\), \(\delta \in \Sigma^*\)
+  \end{itemize}
+  We consider these strings in three broad categories.
+  \begin{itemize}
+    \item \(\min(i, j, k) = i\) i.e. \(q_0a^ib^jc^k\gamma \vdash^*_\mathcal{M} X^iq_0Y^ib^{j-i}Z^ic^{k-i}\gamma\) by repeatedly applying \textbf{L6}.
+    \begin{itemize}
+      \item if \(j > i, k \geq i\) and \(\gamma \in \{\epsilon, a\delta, b\delta\}\).\\ \(X^iq_0Y^ib^{j-i}Z^ic^{k-i}\gamma \vdash_\mathcal{M} X^iYq_4Y^{i-1}b^{j-i}Z^ic^{k-i}\gamma \vdash^*_\mathcal{M} X^iY^iq_4b^{j-i}Z^ic^{k-i}\gamma\) by \textbf{L4}. There is no transition out of \(q_4\) on symbol \(b\).
+      \item if \(j = i, k > i\) and \(\gamma \in \{\epsilon, a\delta, b\delta\}\).\\
+      \(X^iq_0Y^iZ^ic^{k-i}\gamma \vdash^*_\mathcal{M} X^iY^iZ^iq_4c^{k-i}\gamma\) by \textbf{L4}. Still no transition out of \(q_4\) on symbol \(c\).
+      \item if \(j = i, k = i\) and \(\gamma \in \{a\delta, b\delta\}\).\\
+      \(X^iq_0Y^iZ^i\gamma \vdash^*_\mathcal{M} X^iY^iZ^iq_4\gamma\) by \textbf{L4}. No transition out of \(q_4\) on symbol \(a\) or \(b\).
+    \end{itemize}
+    \item \(\min(i, j, k) = j\) i.e. \(q_0a^ib^jc^k\gamma \vdash^*_\mathcal{M} X^jq_0a^{i-j}Y^jZ^jc^{k-j}\gamma\) by repeatedly applying \textbf{L6}.
+    \begin{itemize}
+      \item We have covered the case when \(i =j\), so the case left is \(i > j, k \geq j\) and \(\gamma \in \{\epsilon, a\delta, b\delta\}\).\\ \(X^jq_0a^{i-j}Y^jZ^jc^{k-j}\gamma \vdash_\mathcal{M} X^jXq_1a^{i-j-1}Y^jZ^jc^{k-j}\gamma \vdash^*_\mathcal{M} X^{j+1}a^{i-j-1}Y^jq_1Z^jc^{k-j}\gamma\) by \textbf{L1}. There is no transition out of \(q_1\) on symbol \(Z\).
+    \end{itemize}
+    \item \(\min(i, j, k) = k\) i.e. \(q_0a^ib^jc^k\gamma \vdash^*_\mathcal{M} X^kq_0a^{i-k}Y^kb^{j-k}Z^k\gamma\) by repeatedly applying \textbf{L6}.
+    \begin{itemize}
+      \item We have covered cases when \(i = k\) or \(j = k\), so the case left is \(i > k, j > k\) and \(\gamma \in \{\epsilon, a\delta, b\delta\}\).\\
+      \(X^kq_0a^{i-k}Y^kb^{j-k}Z^k\gamma \vdash_\mathcal{M} X^kXq_1a^{i-k-1}Y^kb^{j-k}Z^k\gamma \vdash^*_\mathcal{M} X^{k+1}a^{i-k-1}Y^kq_1b^{j-k}Z^k\gamma \\ \vdash_\mathcal{M} X^{k+1}a^{i-k-1}Y^kYq_2b^{j-k-1}Z^k\gamma \vdash^*_\mathcal{M} X^{k+1}a^{i-k-1}Y^{k+1}b^{j-k-1}Z^kq_2\gamma\). There is no transition out of \(q_2\) on symbol \(a, b, B\) corresponding to \(\gamma = a\delta, b\delta, \epsilon\).
+    \end{itemize}
+  \end{itemize}
+  Since for all cases, there is no transition to \(q_5\), all such strings are not accepted by \(\mathcal{M}\).
+\end{itemize}
+Hence, we have shown that all strings not in \(L\) are not accepted by \(\mathcal{M}\). By contraposition, every string accepted by \(\mathcal{M}\) is in \(L\).
+
+\subsection*{Exercise 2}
+\paragraph*{(a).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} < 10 \text{ such that } M \text{ halts in} < 100 \text{ steps when run on } x\}\).\\ 
+Language \(L\) is decidable. The idea is to construct a TM \(T\) that takes as input \(\langle M \rangle\), and runs \(M\) on \(\forall x \in \Sigma^*\) such that \(|x| < 10\) for at most \(100\) steps, and if \(M\) halts on any such \(x\) in less than \(100\) steps, \(T\) halts and accepts \(\langle M \rangle\), otherwise \(T\) halts and rejects \(\langle M \rangle\).\\
+For details of the algorithm, we assume that the alphabet \(\Sigma\) of \(M\) is given or can be found out by \(T\) from the encoding \(\langle M \rangle\). Then it is possible to enumerate and order all strings \(x \in \Sigma^*\) by length, and by lexicographic order if they are of the same length. Hence, we have a mapping \(\phi\) from the inputs of \(M\) to natural numbers \(\mathbb{N}\). Hence, there exists a \(n \in \mathbb{N}\) such that for \(\forall i \leq n, |\phi^{-1}(n)| < 10\) and \(\forall i > n,  |\phi^{-1}(n)| \geq 10\). We ask \(T\) to execute \(M\) on \(\phi^{-1}(i)\) (or in another notation \(x_i\)), for \(i = 1 .. n \) by the following procedure:
+
+\begin{enumerate}
+  \item[\textbf{1.}] \(T\) initializes tape 2 with \(x_i\) in its encoded form.
+  \item[\textbf{2.}] \(T\) initializes tape 3 with \(M\)'s initial state in encoded form.
+  \item[\textbf{3.}] \(T\) initializes tape 4 as step count \(= 0\).
+  \item[\textbf{4.}] To simulate a move of \(M\) on \(x_i\), \(T\) reads tape 2 and tape 3 to identify \(M\)'s current input symbol and state as \(0^i\) and \(0^j\), and writes the pair onto a fifth scratch tape. \(T\) then scans tape 1 i.e. \(\langle M \rangle\) for a corresponding transition. If found, \(T\) updates the symbol under head of tape 2 and moves head to right or left, and updates the state on tape 3. \(T\) increases the count on tape 4 by 1. 
+  \item[\textbf{5.}] \(T\) repeats step \textbf{4} on \(x_i\) for at most \(100\) times. If \(M\) does not halt by either running into the final state or by getting stuck for some count \(< 100\), \(T\) starts from step \textbf{1} for \(x_{i+1}\). If \(M\) halts on \(x_i\) when count \(< 100\), \(T\) halts and accepts \(\langle M \rangle\). 
+  \item[\textbf{6.}] If for \(\forall i = 1 .. n\), \(M\) does not halt on \(x_i\), then \(T\) halts and rejects \(\langle M \rangle\).
+\end{enumerate}
+Since \(T\) halts on all its inputs and accepts precisely \(L\), \(L\) is decided by \(T\).
+
+\paragraph*{(b).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} \geq 10 \text{ such that } M \text{ halts in} < 100 \text{ steps when run on } x\}\).\\
+\(L\) is decidable. The idea is that since we bound the number of steps that \(M\) runs before halting to be \(< 100\), \(M\) can only inspect at most the first 99 symbols of all its inputs. Hence, we only need to consider a finite input space for each \(M\), i.e. \(\forall x \in \Sigma^*\) with \(10 \leq |x| < 100\). The intuition is that if \(M\) halts on any input of length \(\geq 100\), it would have halted for some prefix of length \(10 \leq |x| < 100\), and that if \(M\) does not halt on any input \(x\) with \(10 \leq |x| < 100\), it would also not halt for any input of length \(\geq 100\) since the prefixes are the same.
+
+So similar to \((a)\), we construct a TM \(T\) that takes as input \(\langle M \rangle\), and runs \(M\) on \(\forall x \in \Sigma^*\) with \(10 \leq |x| < 100\) for at most \(100\) steps, and if \(M\) halts on any such \(x\) in less than \(100\) steps, \(T\) halts and accepts \(\langle M \rangle\), otherwise \(T\) halts and rejects \(\langle M \rangle\). We enumerate the input strings of \(M\) in the same way as in part (a). Hence, \(\exists\ n, m \in \mathbb{N}\) where for \(\forall n\leq i \leq m\), \(10 \leq |x_i| < 100\) and for \(\forall i < n\), \(|x_i| < 10\) and for \(\forall i > m\), \(|x_i| \geq 100\). We ask \(T\) to run \(M\) on \(x_i\) for \(i = n .. m\). The algorithm is the same as part (a).
+
+\paragraph*{(c).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} < 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
+\(L\) is undecidable. We reduce the halting problem to problem \(L\). The idea is that for every pair of TM \(M\) and string \(w\), we construct a TM \(M'\) that first runs \(M\) on \(w\), and if \(M\) accepts \(w\), \(M'\) runs 100 more steps to the right of its input tape and halts; and if \(M\) rejects \(w\) because of halting in a non final state, then \(M'\) runs to the right of its input tape forever. \\
+\noindent
+By construction, \(M\) accepts \(w\) \(\Leftrightarrow \langle M'\rangle \in L\). 
+\begin{itemize}
+  \item \(\Rightarrow\). \(M\) accepts \(w\) \(\Rightarrow M'\) accepts and halts on all inputs in \(\geq 100\) steps \(\Rightarrow \exists x\) with \(|x| < 10\) such that \(M'\) accepts and halts in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \in L\).
+  \item \(\Leftarrow\). Show contraposition. \(M\) does not accept \(w\) because \(M\) halts in a non final state or because \(M\) does not halt on \(w\) \(\Rightarrow M'\) runs forever on all its inputs  \(\Rightarrow\) there is no input of length \(< 10\) such that \(M'\) halts on it in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \notin L\)
+\end{itemize}
+Now note that we can construct a TM \(M_1\) that takes \(\langle M, w\rangle\) as input and outputs corresponding \(\langle M' \rangle\). If \(L\) is decidable, then there exists a TM \(M_2\) that always halts and that accepts \(\langle M'\rangle\) iff \(\langle M'\rangle \in L\). We can construct a TM \(M_3\) that first runs \(M_1\) on \(\langle M, w\rangle\), and when \(M_1\) halts with \(\langle M' \rangle\) written on the tape, runs \(M_2\) on \(\langle M' \rangle\). Then \(M_3\) accepts/rejects \(\langle M, w\rangle\) iff \(\langle M' \rangle \in/\notin L\) iff \(M\) accepts/rejects \(w\). \(L_u\) is recursive, a contradiction. Hence \(L\) is undecidable.
+
+\paragraph*{(d).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} \geq 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
+\(L\) is undecidable, and the reduction algorithm is similar to part (c). We map the each \(\langle M, w\rangle\) to \(\langle M' \rangle\) where the TM \(M'\) first runs \(M\) on \(w\), and if \(M\) accepts \(w\), \(M'\) runs 100 more steps to the right of its input tape and halts, and if \(M\) halts on \(w\) in a non final state, then \(M'\) runs to the right of its tape forever.\\
+\(M\) accepts \(w\) \(\Leftrightarrow \langle M'\rangle \in L\).
+\begin{itemize}
+  \item \(\Rightarrow\). \(M\) accepts \(w\) \(\Rightarrow M'\) accepts and halts on all inputs in \(\geq 100\) steps \(\Rightarrow \exists x\) with \(|x| \geq 10\) such that \(M'\) accepts and halts in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \in L\).
+  \item \(\Leftarrow\). Show contraposition. \(M\) does not accept \(w\) because \(M\) halts in a non final state or because \(M\) does not halt on \(w\) \(\Rightarrow M'\) runs forever on all its inputs  \(\Rightarrow\) there is no input of length \(\geq 10\) such that \(M'\) halts on it in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \notin L\)
+\end{itemize}
+There exists a TM \(M_1\) that takes \(\langle M, w\rangle\) as input and outputs corresponding \(\langle M' \rangle\) since it's only source code transformation. If \(L\) is decidable, then there exists a TM \(M_2\) that always halts and that accepts \(\langle M'\rangle\) iff \(\langle M'\rangle \in L\). Then we can construct a TM \(M_3\) that first runs \(M_1\) on \(\langle M, w\rangle\), and when \(M_1\) halts with \(\langle M' \rangle\) written on the tape, runs \(M_2\) on \(\langle M' \rangle\). Then \(M_3\) accepts/rejects \(\langle M, w\rangle\) iff \(\langle M' \rangle \in/\notin L\) iff \(M\) accepts/rejects \(w\). \(L_u\) is recursive, a contradiction. Hence \(L\) is undecidable.
+
+\subsection*{Exercise 3.}
+\paragraph*{(a).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} < 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
+We construct a TM \(T\) such that \(L(T) = L\). Given \(\langle M \rangle\) as the input of \(T\), \(T\) follows the steps:
+\begin{enumerate}
+  \item[\textbf{1.}] \(T\) initialises the step count \(= 1\) on tape 2.
+  \item[\textbf{2.}] \(T\) lists initial IDs of all strings \(x\) of length \(< 10\) on tape 3. The listing follows the order of increasing length, and follows lexicographic order if strings are of the same length. Separation of IDs can be indicated by a special tape symbol. Listing takes finitely many steps since the input space of interest for any given \(M\) is finite.
+  \item[\textbf{3.}] \(T\) rewinds to the leftmost ID. For each ID, \(T\) uses tape 4 as a scratch tape to search for transitions based on the coding \(\langle M \rangle\) on tape 1. If there is a possible transition, \(T\) updates the current ID on tape 3, and continues to the next ID on the right. If there is no transition found or the ID contains an accepting state i.e.(\(M\) halts on \(x\)) and if the current step count on tape 2 is \(< 100\), \(T\) continues running \(M\) on the next ID. After running one move of \(M\) on all IDs, \(T\) increments step count by 1, and rewinds to the leftmost ID and continues step \textbf{3}. 
+  \item[\textbf{4.}] If for any ID, \(T\) cannot find any transitions or the ID contains an accepting state, and the current step count is \(\geq 100\), \(T\) halts and accepts \(\langle M \rangle\).
+\end{enumerate}
+By construction, \(T\) iterates running \(M\) on all strings of length \(< 10\), and would accept only if \(M\) halts on any in \(\geq 100\) steps, so \(L(T) = L\). \(L\) is recursively enumerable.
+
+\paragraph*{(b).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} \geq 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
+We construct a TM \(T\) such that \(L(T) = L\). We still ask \(T\) to process inputs of \(M\) following the numbering by \(\phi\), and we identify an \(n \in \mathbb{N}\) such that \(\forall i \geq n\), \( |\phi^{-1}(i)| \geq 10\) and \(\forall i < n, |\phi^{-1}(i)| < 10\). So given \(\langle M \rangle\) as the input of \(T\), \(T\) would conduct a breadth first search on the input space by the following steps:
+\begin{itemize}
+  \item \(T\) initializes cycle count \(k\) = 0 on tape 2. \(k\) is used to remember the number of strings \(T\) has processed so as to append the correct string onto tape 3.
+  \item \(T\) would record IDs of \(M\)'s inputs on tape 3. In cycle k, \(T\) rewinds to the leftmost ID, and runs one move of \(M\) on each ID on the tape and appends the initial ID of \(\phi^{-1}(n+k)\) onto tape 3. Here \(k\) is read from tape 2, and each ID is separated by a special tape symbol. After appending the ID of the new string, \(T\) increments the cycle count on tape 2 by 1.
+  \item \(T\) records the step count of \(M\) on each ID on tape 4. For a new initial ID appended on tape 3, \(M\) appends a step count = 0 onto tape 4. The counts are also separated with a special tape symbol. After \(T\) simulates one move of \(M\) on an ID, \(T\) also moves the head of tape 4 to the corresponding step count by moving to the right to find the next special separation symbol and increases the current step count by 1. The update of an ID on tape 3 and the update of its step count on tape 4 takes place in lock step.
+  \item To run a move of \(M\) on any IDs, \(T\) uses tape 5 as a scratch tape to look for transitions from \(\langle M \rangle\) on tape 1. If there is a transition, \(T\) updates the current ID on tape 3. If there is no transition because the string is rejected in a non final state or if the ID contains a final state, then it means \(M\) has halted on the current string, and \(T\) checks the string's step count on tape 4. If the step count is \(< 10\), \(T\) continues running \(M\) on the next ID to the right. If the step count is \(\geq 100\), \(T\) halts and accepts \(\langle M \rangle\).
+\end{itemize}
+Since \(T\) searches for \(M\)'s input space of interest in a breadth first manner, it would not miss any \(x\) on which \(M\) might halt in \(\geq 100\) steps. And by construction, \(T\) accepts all \(\langle M \rangle\) for which there exists \(x\) with \(|x| \geq 10\) on which \(M\) halts in \(\geq 100\). Hence, \(L(T) = L\) and \(L\) is recursively enumerable.
+
+\end{document}
