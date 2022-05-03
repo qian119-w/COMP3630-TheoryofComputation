@@ -129,17 +129,6 @@ Strings that are not in \(L\) are of the form:
   \begin{equation*}
     X^nq_0a^iY^nb^jZ^nc^k\gamma \vdash^*_\mathcal{M} X^{n+1}q_0a^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma
   \end{equation*}
-  \textbf{Proof.} The proof is very similar to part (a).\\
-  %  Let \(i, j, k \geq 1\), \(n \geq 0\) be arbitrary.
-  % \begin{align*}
-  %   X^nq_0a^iY^nb^jZ^nc^k\gamma &\vdash_\mathcal{M} X_nXq_1a^{i-1}Y^nb^jZ^nc^k\gamma\\
-  %   &\vdash^*_\mathcal{M} X^{n+1}a^{i-1}Y^nq_1b^jZ^nc^k\gamma \tag*{(L1 by taking \(x = a\) and \(Y\))}\\
-  %   &\vdash_\mathcal{M} X^{n+1}a^{i-1}Y^nYq_2b^{j-1}Z^nc^k\gamma\\
-  %   &\vdash^*_\mathcal{M} X^{n+1}a^{i-1}Y^nYb^{j-1}Z^nq_2c^k\gamma \tag*{(L2 by taking \(x = b\) and \(Z\))}\\
-  %   &\vdash_\mathcal{M} X^{n+1}a^{i-1}Y^{n+1}b^{j-1}Z^{n-1}q_3ZZc^{k-1}\gamma \tag*{(* we don't look into cases for simplicity)}\\
-  %   &\vdash^*_\mathcal{M} X^{n}q_3Xa^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma \tag*{(L3 by taking \(x = Z, b, Y, a\))}\\
-  %   &\vdash_\mathcal{M} X^{n+1}q_0a^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma
-  % \end{align*}
   The rest of strings not in \(L\) are of the form 
   \begin{itemize}
     \item \(w = a^ib^jc^k\gamma\) for \(\forall i,j,k \geq 1\), \(i \neq j \lor  j \neq k \lor i \neq k\), and \(\gamma \in \{\epsilon, a\delta, b\delta\}\), \(\delta \in \Sigma^*\)
@@ -167,66 +156,112 @@ Strings that are not in \(L\) are of the form:
   \end{itemize}
   Since for all cases, there is no transition to \(q_5\), all such strings are not accepted by \(\mathcal{M}\).
 \end{itemize}
-Hence, we have shown that all strings not in \(L\) are not accepted by \(\mathcal{M}\). By contraposition, every string accepted by \(\mathcal{M}\) is in \(L\).
+Hence, we have shown that all strings not in \(L\) are not accepted by \(\mathcal{M}\). By contraposition, every string accepted by \(\mathcal{M}\) is in \(L\).\\
+\noindent
+\textbf{Proof of L6.} Very similar to part (a).\\
+   Let \(i, j, k \geq 1\), \(n \geq 0\) be arbitrary.
+  \begin{align*}
+    X^nq_0a^iY^nb^jZ^nc^k\gamma &\vdash_\mathcal{M} X_nXq_1a^{i-1}Y^nb^jZ^nc^k\gamma\\
+    &\vdash^*_\mathcal{M} X^{n+1}a^{i-1}Y^nq_1b^jZ^nc^k\gamma \tag*{(L1 by taking \(x = a\) and \(Y\))}\\
+    &\vdash_\mathcal{M} X^{n+1}a^{i-1}Y^nYq_2b^{j-1}Z^nc^k\gamma\\
+    &\vdash^*_\mathcal{M} X^{n+1}a^{i-1}Y^nYb^{j-1}Z^nq_2c^k\gamma \tag*{(L2 by taking \(x = b\) and \(Z\))}\\
+    &\vdash_\mathcal{M} X^{n+1}a^{i-1}Y^{n+1}b^{j-1}Z^{n-1}q_3ZZc^{k-1}\gamma \tag*{(* we don't look into cases for simplicity)}\\
+    &\vdash^*_\mathcal{M} X^{n}q_3Xa^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma \tag*{(L3 by taking \(x = Z, b, Y, a\))}\\
+    &\vdash_\mathcal{M} X^{n+1}q_0a^{i-1}Y^{n+1}b^{j-1}Z^{n+1}c^{k-1}\gamma
+  \end{align*}
 
 \subsection*{Exercise 2}
 \paragraph*{(a).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} < 10 \text{ such that } M \text{ halts in} < 100 \text{ steps when run on } x\}\).\\ 
-Language \(L\) is decidable. The idea is to construct a TM \(T\) that takes as input \(\langle M \rangle\), and runs \(M\) on \(\forall x \in \Sigma^*\) such that \(|x| < 10\) for at most \(100\) steps, and if \(M\) halts on any such \(x\) in less than \(100\) steps, \(T\) halts and accepts \(\langle M \rangle\), otherwise \(T\) halts and rejects \(\langle M \rangle\).\\
-For details of the algorithm, we assume that the alphabet \(\Sigma\) of \(M\) is given or can be found out by \(T\) from the encoding \(\langle M \rangle\). Then it is possible to enumerate and order all strings \(x \in \Sigma^*\) by length, and by lexicographic order if they are of the same length. Hence, we have a mapping \(\phi\) from the inputs of \(M\) to natural numbers \(\mathbb{N}\). Hence, there exists a \(n \in \mathbb{N}\) such that for \(\forall i \leq n, |\phi^{-1}(n)| < 10\) and \(\forall i > n,  |\phi^{-1}(n)| \geq 10\). We ask \(T\) to execute \(M\) on \(\phi^{-1}(i)\) (or in another notation \(x_i\)), for \(i = 1 .. n \) by the following procedure:
-
+Language \(L\) is decidable. The idea is to construct a TM \(T\) that takes as input \(\langle M \rangle\), and runs \(M\) on \(\forall x \in \Sigma^*\) with \(|x| < 10\) for at most \(100\) steps, and if \(M\) halts on any such \(x\) in less than \(100\) steps, \(T\) halts and accepts \(\langle M \rangle\), otherwise \(T\) halts and rejects \(\langle M \rangle\).\\
+For details of the algorithm, we assume that the alphabet \(\Sigma\) of \(M\) is given or can be found out by \(T\) from the encoding \(\langle M \rangle\). Then it is possible to enumerate and order all strings \(x \in \Sigma^*\) by length, and by lexicographic order if they are of the same length, i.e. we have a mapping \(\phi : \Sigma^* \mapsto \mathbb{N}\). Hence, there exists a \(n \in \mathbb{N}\) such that for \(\forall i \leq n, |\phi^{-1}(n)| < 10\) and \(\forall i > n,  |\phi^{-1}(n)| \geq 10\). \(T\) runs \(M\) on \(\phi^{-1}(i)\) for \(\forall i \leq n \) by the following procedure:
 \begin{enumerate}
-  \item[\textbf{1.}] \(T\) initializes tape 2 with \(x_i\) in its encoded form.
+  \item[\textbf{1.}] \(T\) initializes tape 2 with \(\phi^{-1}(i)\) in its encoded form.
   \item[\textbf{2.}] \(T\) initializes tape 3 with \(M\)'s initial state in encoded form.
-  \item[\textbf{3.}] \(T\) initializes tape 4 as step count \(= 0\).
-  \item[\textbf{4.}] To simulate a move of \(M\) on \(x_i\), \(T\) reads tape 2 and tape 3 to identify \(M\)'s current input symbol and state as \(0^i\) and \(0^j\), and writes the pair onto a fifth scratch tape. \(T\) then scans tape 1 i.e. \(\langle M \rangle\) for a corresponding transition. If found, \(T\) updates the symbol under head of tape 2 and moves head to right or left, and updates the state on tape 3. \(T\) increases the count on tape 4 by 1. 
-  \item[\textbf{5.}] \(T\) repeats step \textbf{4} on \(x_i\) for at most \(100\) times. If \(M\) does not halt by either running into the final state or by getting stuck for some count \(< 100\), \(T\) starts from step \textbf{1} for \(x_{i+1}\). If \(M\) halts on \(x_i\) when count \(< 100\), \(T\) halts and accepts \(\langle M \rangle\). 
-  \item[\textbf{6.}] If for \(\forall i = 1 .. n\), \(M\) does not halt on \(x_i\), then \(T\) halts and rejects \(\langle M \rangle\).
+  \item[\textbf{3.}] \(T\) initializes tape 4 as step count \(= 1\).
+  \item[\textbf{4.}] To simulate a move of \(M\) on \(\phi^{-1}(i)\), \(T\) reads tape 2 and tape 3 to identify \(M\)'s current input symbol and state as \(0^i\) and \(0^j\), and writes the pair onto tape 5 as a scratch tape. \(T\) then scans tape 1 i.e. \(\langle M \rangle\) for a corresponding transition. If found, \(T\) updates \(\phi^{-1}(i)\) on tape 2 and moves the head to the right or left symbol according to the transition function, and updates \(M\)'s state on tape 3. \(T\) increases the count on tape 4 by 1. 
+  \item[\textbf{5.}] \(T\) repeats step \textbf{4} on \(\phi^{-1}(i)\) for at most \(100\) times. 
+  \begin{itemize}
+    \item If \(M\) does not halt for a count \(< 100\) i.e. tape 3 does not contain the accepting state or there is still transition found after running \(100\) steps, \(T\) restarts the procedure (from \textbf{1.}) for the next string \(\phi^{-1}(i+1)\).
+    \item If \(M\) halts on \(\phi^{-1}(i)\) when count \(< 100\), \(T\) halts and accepts \(\langle M \rangle\). 
+  \end{itemize} 
+  \item[\textbf{6.}] If \(M\) does not halt on \(\phi^{-1}(i)\) for \(\forall i \leq n\), then \(T\) halts and rejects \(\langle M \rangle\).
 \end{enumerate}
-Since \(T\) halts on all its inputs and accepts precisely \(L\), \(L\) is decided by \(T\).
+Since \(T\) halts on all its inputs and accepts precisely those \(\langle M \rangle\) where there exists input of length \(< 10\) on which \(M\) halts in \(< 100\) steps, \(L\) is decided by \(T\).
 
 \paragraph*{(b).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} \geq 10 \text{ such that } M \text{ halts in} < 100 \text{ steps when run on } x\}\).\\
-\(L\) is decidable. The idea is that since we bound the number of steps that \(M\) runs before halting to be \(< 100\), \(M\) can only inspect at most the first 99 symbols of all its inputs. Hence, we only need to consider a finite input space for each \(M\), i.e. \(\forall x \in \Sigma^*\) with \(10 \leq |x| < 100\). The intuition is that if \(M\) halts on any input of length \(\geq 100\), it would have halted for some prefix of length \(10 \leq |x| < 100\), and that if \(M\) does not halt on any input \(x\) with \(10 \leq |x| < 100\), it would also not halt for any input of length \(\geq 100\) since the prefixes are the same.
-
-So similar to \((a)\), we construct a TM \(T\) that takes as input \(\langle M \rangle\), and runs \(M\) on \(\forall x \in \Sigma^*\) with \(10 \leq |x| < 100\) for at most \(100\) steps, and if \(M\) halts on any such \(x\) in less than \(100\) steps, \(T\) halts and accepts \(\langle M \rangle\), otherwise \(T\) halts and rejects \(\langle M \rangle\). We enumerate the input strings of \(M\) in the same way as in part (a). Hence, \(\exists\ n, m \in \mathbb{N}\) where for \(\forall n\leq i \leq m\), \(10 \leq |x_i| < 100\) and for \(\forall i < n\), \(|x_i| < 10\) and for \(\forall i > m\), \(|x_i| \geq 100\). We ask \(T\) to run \(M\) on \(x_i\) for \(i = n .. m\). The algorithm is the same as part (a).
+\(L\) is decidable. Since the number of steps that any \(M\) can run is bounded \(< 100\), \(M\) can only inspect at most the first 99 symbols of all its inputs. Hence, we only need to consider a finite input space for each \(M\), i.e. \(\forall x \in \Sigma^*\) with \(10 \leq |x| < 100\). The reason is that if \(M\) halts on any input of length \(\geq 100\), it would have halted for some prefix of length \(10 \leq |x| < 100\), and that if \(M\) does not halt on any input \(x\) with \(10 \leq |x| < 100\), it would also not halt for any input of length \(\geq 100\) since the prefixes are the same. \\
+Similar to \((a)\), we construct a TM \(T\) that takes as input \(\langle M \rangle\), and runs \(M\) on \(\forall x \in \Sigma^*\) with \(10 \leq |x| < 100\) for at most \(100\) steps, and if \(M\) halts on any such \(x\) in less than \(100\) steps, \(T\) halts and accepts \(\langle M \rangle\), otherwise \(T\) halts and rejects \(\langle M \rangle\). We enumerate the input strings of \(M\) by the natural ordering \(\phi\) as in part (a), and identify \(n, m \in \mathbb{N}\) where for \(\forall n\leq i \leq m\), \(10 \leq |x_i| < 100\) and for \(\forall i < n\), \(|x_i| < 10\) and for \(\forall i > m\), \(|x_i| \geq 100\). We ask \(T\) to run \(M\) on \(x_i\) for \(i = n .. m\). The algorithm is the same as part (a).
 
 \paragraph*{(c).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} < 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
-\(L\) is undecidable. We reduce the halting problem to problem \(L\). The idea is that for every pair of TM \(M\) and string \(w\), we construct a TM \(M'\) that first runs \(M\) on \(w\), and if \(M\) accepts \(w\), \(M'\) runs 100 more steps to the right of its input tape and halts; and if \(M\) rejects \(w\) because of halting in a non final state, then \(M'\) runs to the right of its input tape forever. \\
-\noindent
+\(L\) is undecidable. We reduce the halting problem to problem \(L\). The idea is that for every pair of TM \(M\) and string \(w\), we construct a TM \(M'\) that runs as follows:
+\begin{enumerate}
+  \item ignores its own input / erases \(x\) on the tape
+  \item write \(w\) onto tape
+  \item runs \(M\) on \(w\)
+  \begin{itemize}
+    \item if \(M\) accepts \(w\), \(M'\) runs 100 steps to the right of its input tape and halts
+    \item if \(M\) halts on \(w\) in a non final state, then \(M'\) runs to the right of its input tape forever.
+    \item if \(M\) does not halt on \(w\), \(M'\) because of simulateing \(M\), also does not halt.
+  \end{itemize}
+\end{enumerate} 
 By construction, \(M\) accepts \(w\) \(\Leftrightarrow \langle M'\rangle \in L\). 
 \begin{itemize}
   \item \(\Rightarrow\). \(M\) accepts \(w\) \(\Rightarrow M'\) accepts and halts on all inputs in \(\geq 100\) steps \(\Rightarrow \exists x\) with \(|x| < 10\) such that \(M'\) accepts and halts in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \in L\).
-  \item \(\Leftarrow\). Show contraposition. \(M\) does not accept \(w\) because \(M\) halts in a non final state or because \(M\) does not halt on \(w\) \(\Rightarrow M'\) runs forever on all its inputs  \(\Rightarrow\) there is no input of length \(< 10\) such that \(M'\) halts on it in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \notin L\)
+  \item \(\Leftarrow\). Show contraposition. \(M\) does not accept \(w\) because \(M\) halts in a non final state or because \(M\) does not halt on \(w\) \(\Rightarrow M'\) runs forever on all its inputs and never halts \(\Rightarrow\) there is no input of length \(< 10\) such that \(M'\) halts on it in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \notin L\)
 \end{itemize}
-Now note that we can construct a TM \(M_1\) that takes \(\langle M, w\rangle\) as input and outputs corresponding \(\langle M' \rangle\). If \(L\) is decidable, then there exists a TM \(M_2\) that always halts and that accepts \(\langle M'\rangle\) iff \(\langle M'\rangle \in L\). We can construct a TM \(M_3\) that first runs \(M_1\) on \(\langle M, w\rangle\), and when \(M_1\) halts with \(\langle M' \rangle\) written on the tape, runs \(M_2\) on \(\langle M' \rangle\). Then \(M_3\) accepts/rejects \(\langle M, w\rangle\) iff \(\langle M' \rangle \in/\notin L\) iff \(M\) accepts/rejects \(w\). \(L_u\) is recursive, a contradiction. Hence \(L\) is undecidable.
+Now note that we can construct a TM \(M_1\) that takes \(\langle M, w\rangle\) as input and outputs corresponding \(\langle M' \rangle\) as we just concatenate the transition functions of several TMs that does the step 1,2,3. If \(L\) is decidable, then there exists a TM \(M_2\) that always halts and that accepts \(\langle M'\rangle\) iff \(\langle M'\rangle \in L\). We can construct a TM \(M_3\) that first runs \(M_1\) on \(\langle M, w\rangle\), and when \(M_1\) halts with \(\langle M' \rangle\) written on the tape, runs \(M_2\) on \(\langle M' \rangle\). Then \(M_3\) accepts/rejects \(\langle M, w\rangle\) iff \(\langle M' \rangle \in/\notin L\) iff \(M\) accepts/rejects \(w\). \(L_u\) is recursive, a contradiction. Hence \(L\) is undecidable.
 
 \paragraph*{(d).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} \geq 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
-\(L\) is undecidable, and the reduction algorithm is similar to part (c). We map the each \(\langle M, w\rangle\) to \(\langle M' \rangle\) where the TM \(M'\) first runs \(M\) on \(w\), and if \(M\) accepts \(w\), \(M'\) runs 100 more steps to the right of its input tape and halts, and if \(M\) halts on \(w\) in a non final state, then \(M'\) runs to the right of its tape forever.\\
+\(L\) is undecidable, and the reduction algorithm is essentially the same as part (c). We map each instance of the halting problem \(\langle M, w\rangle\) to an instance of problem \(L\) \(\langle M' \rangle\) where \(M'\) ignores its own input, runs \(M\) on \(w\), and if \(M\) accepts \(w\), \(M'\) runs 100 steps to the right of its input tape and halts; and if \(M\) halts on \(w\) in a non final state, \(M'\) runs to the right of its tape forever.\\
 \(M\) accepts \(w\) \(\Leftrightarrow \langle M'\rangle \in L\).
 \begin{itemize}
   \item \(\Rightarrow\). \(M\) accepts \(w\) \(\Rightarrow M'\) accepts and halts on all inputs in \(\geq 100\) steps \(\Rightarrow \exists x\) with \(|x| \geq 10\) such that \(M'\) accepts and halts in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \in L\).
-  \item \(\Leftarrow\). Show contraposition. \(M\) does not accept \(w\) because \(M\) halts in a non final state or because \(M\) does not halt on \(w\) \(\Rightarrow M'\) runs forever on all its inputs  \(\Rightarrow\) there is no input of length \(\geq 10\) such that \(M'\) halts on it in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \notin L\)
+  \item \(\Leftarrow\). Show contraposition. \(M\) does not accept \(w\) because \(M\) halts in a non final state or because \(M\) does not halt on \(w\) \(\Rightarrow M'\) runs forever on all its inputs and never halts \(\Rightarrow\) there is no input of length \(\geq 10\) such that \(M'\) halts on it in \(\geq 100\) steps \(\Rightarrow \langle M' \rangle \notin L\)
 \end{itemize}
-There exists a TM \(M_1\) that takes \(\langle M, w\rangle\) as input and outputs corresponding \(\langle M' \rangle\) since it's only source code transformation. If \(L\) is decidable, then there exists a TM \(M_2\) that always halts and that accepts \(\langle M'\rangle\) iff \(\langle M'\rangle \in L\). Then we can construct a TM \(M_3\) that first runs \(M_1\) on \(\langle M, w\rangle\), and when \(M_1\) halts with \(\langle M' \rangle\) written on the tape, runs \(M_2\) on \(\langle M' \rangle\). Then \(M_3\) accepts/rejects \(\langle M, w\rangle\) iff \(\langle M' \rangle \in/\notin L\) iff \(M\) accepts/rejects \(w\). \(L_u\) is recursive, a contradiction. Hence \(L\) is undecidable.
+There exists a TM \(M_1\) that takes \(\langle M, w\rangle\) as input and outputs corresponding \(\langle M' \rangle\). If \(L\) is decidable, then there exists a TM \(M_2\) that always halts and that accepts \(\langle M'\rangle\) iff \(\langle M'\rangle \in L\). Then we can construct a TM \(M_3\) that first runs \(M_1\) on \(\langle M, w\rangle\), and when \(M_1\) halts with \(\langle M' \rangle\) written on the tape, runs \(M_2\) on \(\langle M' \rangle\). Then \(M_3\) accepts/rejects \(\langle M, w\rangle\) iff \(\langle M' \rangle \in/\notin L\) iff \(M\) accepts/rejects \(w\). \(L_u\) is recursive, a contradiction. Hence \(L\) is undecidable.
 
 \subsection*{Exercise 3.}
 \paragraph*{(a).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} < 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
 We construct a TM \(T\) such that \(L(T) = L\). Given \(\langle M \rangle\) as the input of \(T\), \(T\) follows the steps:
 \begin{enumerate}
   \item[\textbf{1.}] \(T\) initialises the step count \(= 1\) on tape 2.
-  \item[\textbf{2.}] \(T\) lists initial IDs of all strings \(x\) of length \(< 10\) on tape 3. The listing follows the order of increasing length, and follows lexicographic order if strings are of the same length. Separation of IDs can be indicated by a special tape symbol. Listing takes finitely many steps since the input space of interest for any given \(M\) is finite.
-  \item[\textbf{3.}] \(T\) rewinds to the leftmost ID. For each ID, \(T\) uses tape 4 as a scratch tape to search for transitions based on the coding \(\langle M \rangle\) on tape 1. If there is a possible transition, \(T\) updates the current ID on tape 3, and continues to the next ID on the right. If there is no transition found or the ID contains an accepting state i.e.(\(M\) halts on \(x\)) and if the current step count on tape 2 is \(< 100\), \(T\) continues running \(M\) on the next ID. After running one move of \(M\) on all IDs, \(T\) increments step count by 1, and rewinds to the leftmost ID and continues step \textbf{3}. 
-  \item[\textbf{4.}] If for any ID, \(T\) cannot find any transitions or the ID contains an accepting state, and the current step count is \(\geq 100\), \(T\) halts and accepts \(\langle M \rangle\).
+  \item[\textbf{2.}] \(T\) lists initial IDs of all strings \(x\) of length \(< 10\) on tape 3. The listing follows the order of increasing length, and follows lexicographic order if strings are of the same length. Separation of IDs can be indicated by a special tape symbol (\#). Listing takes finitely many steps since the input space of interest for any given \(M\) is finite.
+  \item[\textbf{3.}] \(T\) rewinds to the leftmost ID. For each ID, \(T\) uses tape 4 as a scratch tape to search for transitions based on the coding \(\langle M \rangle\) on tape 1. If there is a possible transition, \(T\) updates the current ID on tape 3, and continues to the next ID on the right. If there is no transition found or the ID contains an accepting state (i.e.\(M\) halts on \(x\)) and if the current step count on tape 2 is \(< 100\), \(T\) changes the left separator \# to \(\dagger\) as an indication that \(M\) has halted on this ID to avoid checking in the next cycle. \(T\) then continues running \(M\) on the next ID. After running one move of \(M\) on all IDs, \(T\) increments step count by 1, and rewinds to the leftmost ID and repeats step \textbf{3}. 
+  \item[\textbf{4.}] If for any ID, \(T\) cannot find any transition on a non-final state or the ID contains an accepting state, and the current step count is \(\geq 100\), \(T\) halts and accepts \(\langle M \rangle\).
 \end{enumerate}
-By construction, \(T\) iterates running \(M\) on all strings of length \(< 10\), and would accept only if \(M\) halts on any in \(\geq 100\) steps, so \(L(T) = L\). \(L\) is recursively enumerable.
+\begin{center}
+  \begin{tabular}{ c c c }
+  cycle \(k\) & tape 2 & tape 3 \\
+  1 & 1 & \#\(ID_{0,1}\)\#\(ID_{1,1}\)\#\(ID_{2,1}\)..\#\(ID_{n,1}\) \\
+  2 & 10 & \#\(ID_{0,2}\)\#\(ID_{1,2}\)\#\(ID_{2,2}\)..\#\(ID_{n,2}\) \\
+  3 & 11 & \#\(ID_{0,3}\)\(\dagger ID_{1,3}\)\#\(ID_{2,3}\)..\#\(ID_{n,3}\) \\
+  \end{tabular}
+\end{center}
+where \(ID_{i, j}\) corresponds to the ID of \(\phi^{-1}(i)\) after running \(M\) on it for \(j = k\) steps. In the table, \(M\) halts on \(\phi^{-1}(1)\) after 3 steps as indicated by the \(\dagger\). \\
+By construction, \(T\) iterates running \(M\) on all strings of length \(< 10\), and would accept only if \(M\) halts on any such string in \(\geq 100\) steps, so \(L(T) = L\). \(L\) is recursively enumerable.
 
 \paragraph*{(b).} Denote \(L = \{\langle M \rangle : \exists x \in \Sigma^* \text{ of length} \geq 10 \text{ such that } M \text{ halts in} \geq 100 \text{ steps when run on } x\}\).\\
-We construct a TM \(T\) such that \(L(T) = L\). We still ask \(T\) to process inputs of \(M\) following the numbering by \(\phi\), and we identify an \(n \in \mathbb{N}\) such that \(\forall i \geq n\), \( |\phi^{-1}(i)| \geq 10\) and \(\forall i < n, |\phi^{-1}(i)| < 10\). So given \(\langle M \rangle\) as the input of \(T\), \(T\) would conduct a breadth first search on the input space by the following steps:
+We construct a TM \(T\) such that \(L(T) = L\). \(T\) still processes inputs of \(M\) following the natural numbering by \(\phi\), and we identify an \(n \in \mathbb{N}\) such that \(\forall i \geq n\), \( |\phi^{-1}(i)| \geq 10\) and \(\forall i < n, |\phi^{-1}(i)| < 10\). Given \(\langle M \rangle\) as the input of \(T\), \(T\) would conduct a breadth first search on the input space starting from \(\phi^{-1}(n)\) by the following steps:
 \begin{itemize}
-  \item \(T\) initializes cycle count \(k\) = 0 on tape 2. \(k\) is used to remember the number of strings \(T\) has processed so as to append the correct string onto tape 3.
-  \item \(T\) would record IDs of \(M\)'s inputs on tape 3. In cycle k, \(T\) rewinds to the leftmost ID, and runs one move of \(M\) on each ID on the tape and appends the initial ID of \(\phi^{-1}(n+k)\) onto tape 3. Here \(k\) is read from tape 2, and each ID is separated by a special tape symbol. After appending the ID of the new string, \(T\) increments the cycle count on tape 2 by 1.
-  \item \(T\) records the step count of \(M\) on each ID on tape 4. For a new initial ID appended on tape 3, \(M\) appends a step count = 0 onto tape 4. The counts are also separated with a special tape symbol. After \(T\) simulates one move of \(M\) on an ID, \(T\) also moves the head of tape 4 to the corresponding step count by moving to the right to find the next special separation symbol and increases the current step count by 1. The update of an ID on tape 3 and the update of its step count on tape 4 takes place in lock step.
-  \item To run a move of \(M\) on any IDs, \(T\) uses tape 5 as a scratch tape to look for transitions from \(\langle M \rangle\) on tape 1. If there is a transition, \(T\) updates the current ID on tape 3. If there is no transition because the string is rejected in a non final state or if the ID contains a final state, then it means \(M\) has halted on the current string, and \(T\) checks the string's step count on tape 4. If the step count is \(< 10\), \(T\) continues running \(M\) on the next ID to the right. If the step count is \(\geq 100\), \(T\) halts and accepts \(\langle M \rangle\).
+  \item \(T\) initializes cycle count \(k\) = 1 on tape 2. \(k\) is used to remember the number of strings \(T\) has processed so as to append the correct string onto tape 3. It is also used to compute the step count for each halted ID.
+  \item \(T\) would use a tape 3 to record current IDs of \(M\)'s inputs, where the inputs are appended following the natural ordering \(\phi\). In cycle k, \(T\) rewinds to the leftmost ID, and runs one move of \(M\) on each ID on the tape and then appends the initial ID of \(\phi^{-1}(n+k-1)\) onto tape 3. Here \(k\) is read from tape 2, and each ID is separated by a special tape symbol (\#). After appending the ID of the new string, \(T\) increments the cycle count \(k\) by 1.
+  % \item \(T\) records the step count of \(M\) on each ID on tape 4. For a new initial ID appended on tape 3, \(M\) appends a step count = 0 onto tape 4. The counts are also separated with a special tape symbol. After \(T\) simulates one move of \(M\) on an ID, \(T\) also moves the head of tape 4 to the corresponding step count by moving to the right to find the next special separation symbol and increases the current step count by 1. The update of an ID on tape 3 and the update of its step count on tape 4 takes place in lock step.
+  \item To run a move of \(M\) on the \(i^{th}\) ID on tape 3 (where \(i\) can be tracked by counting the number of IDs \(T\) has processed duing a cycle), \(T\) uses tape 4 as a scratch tape to look for transitions from \(\langle M \rangle\) on tape 1. If there is a transition, \(T\) updates the current ID on tape 3. If there is no transition on a non final state or if the ID contains a final state, then it means \(M\) has halted on the current string, and \(T\) checks \(M\)'s step count on this string by computing \(k - i\) on the scratch tape.
+  \begin{itemize}
+    \item If the step count is \(< 100\), \(T\) changes the left separator (\#) of the ID to \(\dagger\) as an indication of having halted so that it avoids checking for this ID in the next cycle. \(T\) then continues running \(M\) on the next ID on the right.
+    \item If the step count is \(\geq 100\), \(T\) halts and accepts \(\langle M \rangle\).
+  \end{itemize}
 \end{itemize}
-Since \(T\) searches for \(M\)'s input space of interest in a breadth first manner, it would not miss any \(x\) on which \(M\) might halt in \(\geq 100\) steps. And by construction, \(T\) accepts all \(\langle M \rangle\) for which there exists \(x\) with \(|x| \geq 10\) on which \(M\) halts in \(\geq 100\). Hence, \(L(T) = L\) and \(L\) is recursively enumerable.
+
+\begin{center}
+  \begin{tabular}{ c c c }
+  cycle \(k\) & tape 2 & tape 3 \\
+  1 & 1 & \#\(ID_{1,0}\) \\
+  2 & 10 & \#\(ID_{1,1}\)\#\(ID_{2,0}\)\\
+  3 & 11 & \#\(ID_{1,2}\)\#\(ID_{2,1}\)\#\(ID_{3,0}\)\\
+  \end{tabular}
+\end{center}
+where \(ID_{i,j}\) corresponds to the ID of the input string \(\phi^{-1}(n+i-1)\) after running \(M\) on it for \(j = k-i\) steps.\\
+Since \(T\) searches for \(M\)'s input space of interest in a breadth first manner, it would not miss any \(x\) of length \(\geq 10\) on which \(M\) might halt in \(\geq 100\) steps. And by construction, \(T\) accepts all \(\langle M \rangle\) for which there exists \(x\) with \(|x| \geq 10\) on which \(M\) halts in \(\geq 100\). Hence, \(L(T) = L\) and \(L\) is recursively enumerable.
 
 \end{document}
